@@ -1,0 +1,29 @@
+@charset "utf-8";
+/* CSS Document */
+
+.project_in_left{ width:375px; padding-right:25px; height:475px; overflow:hidden;}
+.project_in_left dl{ padding:10px 0; line-height:26px; border-bottom:#eee solid 1px;}
+.width_20{ width:17px; height:10px;}
+.project_in_right{ width:700px;}
+.project_in_right ul{ width:222px; padding-top:17px;}
+.project_in_right img{ padding-bottom:3px;}
+.project_in_2{ overflow:hidden; padding-top:25px;}
+.project_in_2 ul{ padding-top:20px;}
+.width_21{ width:25px; height:10px; }
+
+
+.project_list{ padding-bottom:25px; overflow:hidden;}
+.project_list dl{ width:530px; padding:15px 20px 0 0 ;}
+.project_list dd{ width:260px; padding-left:15px;}
+.project_list .color_7{ padding:8px 0;}
+.project_list_01{ padding:20px 0; border-top:#eee solid 1px;}
+.project_list_01 dd{ width:880px; padding-left:20px;}
+.project_list_01 .color_7{ padding:9px 0; line-height:29px;}
+.project_time{ background:url(../images/icon_12.gif) 0 3px no-repeat; padding-left:20px;}
+.project_read{ background:url(../images/icon_13.gif) 0 3px no-repeat; padding-left:20px; margin-left:30px;}
+
+.project_with{}
+.project_with dl{ padding:10px 0; line-height:30px;}
+.project_with p{ color:#555; padding:5px 0 15px 0;}
+.project_with div{ text-align:center; padding:30px 0 20px 0;}
+.project_with .cyw_btn_02:hover{ color:#fff; background:#55a0d7;}

@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteBase /
+RewriteRule !\.(js|ico|gif|jpg|png|css|html|doc|docx|pdf|php|swf|csv)$ index.php [NC]

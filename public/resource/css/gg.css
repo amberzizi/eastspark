@@ -1,0 +1,113 @@
+@charset "utf-8";
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+    padding:0;
+    margin:0;
+    border:0;
+}
+body {background-color:#fbfbfb;}
+ul {list-style:none} 
+font {
+	font-family:"微软雅黑";
+}
+.clear{clear:both;}
+
+
+/*登陆sssddssdsd页样式*/
+.login-main {
+	width:100%;
+	height:100%;
+	padding-top:100px;
+}
+.login-main h2 {
+	width:1100px;
+	height:69px;
+	margin:0 auto;
+	margin-bottom:20px;
+
+}
+.l-content {
+	width:100%;
+	height:400px;
+	background-color:#318cce;
+}
+.contentnr {
+	width:380px;
+	height:320px;
+	background-image:url(../images/bjlogin.gif);
+	background-repeat:no-repeat;
+	background-position:left bottom;
+	overflow:hidden;
+	margin:0 auto;
+	padding-left:720px;
+	padding-top:80px;
+}
+.contentnr p {
+	width:400px;
+	margin-bottom:24px;
+	font-size:14px;
+	line-height:36px;
+	overflow:hidden;
+}
+.formname {
+	width:60px;
+	display:block;
+	color:#666;
+	float:left;
+}
+.formtext {
+	width:230px;
+	display:block;
+	float:left;
+	margin-right:5px;
+}
+.formtext {
+	height:34px;
+	border:1px solid #dedede;
+	background-color:#fff;
+	padding-left:5px;
+	color:#666;
+}
+.yanzhengm {
+	width:100px;
+	height:32px;
+	display:block;
+	float:left;
+	padding-top:2px;
+}
+.formyzm {
+	width:100px;
+	display:block;
+	float:left;
+	margin-right:10px;
+}
+.fromzhushi {
+	width:65px;
+	display:left;
+	float:left;
+	color:#F00;
+}
+.frombutton {
+	width:143px;
+	height:35px;
+	border-radius:10px;
+	background-color:#e0971b;
+	color:#fff;
+	font-size:16px;
+	cursor:pointer;
+}
+.frombutton:hover {
+	background-color:#ce7502;
+}
+.formanniu {
+	width:143px;
+	padding-left:74px;
+}
+.font-text {
+	width:150px;
+	text-align:center;
+	margin:0 auto;
+	color:#999;
+	padding-top:275px;
+}
+	
+	

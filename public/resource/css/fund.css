@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+
+.fund_top{ border:#eee solid 1px; padding:15px; overflow:hidden;}
+.fund_btn_01{ display:inline-block; height:36px; line-height:36px; width:115px; text-align:center;-moz-border-radius: 4px;	-webkit-border-radius: 4px;	border-radius: 4px; background:#318cce url(../images/icon_14.gif) no-repeat 15px 11px; color:#fff; padding-left:25px;}
+.fund_top .fund_btn_01:hover{ background:#55a0d7 url(../images/icon_15.gif) no-repeat 15px 11px; color:#fff;}
+.fund_top dt{ width:900px;}
+
+.fund_news{ padding-top:25px; width:375px;}
+.fund_news dl{ padding:15px 0; border-bottom:#eee solid 1px; margin-bottom:10px;}
+.fund_news dt{ padding-bottom:5px;}
+.fund_news p{ line-height:30px;}
+.fund_bank{ width:700px; padding-top:25px; padding-left:25px;}
+.fund_bank_left{ width:490px;}
+.fund_bank_left ul{ padding:10px 0; border-bottom:#eee solid 1px;}
+.fund_bank_left .font_size18,.bank_list .font_size18{ margin-left:10px;}
+.fund_bank_right p{ padding-top:15px;}
+
+
+.fundbank_search{ overflow:hidden; padding:10px 20px;}
+.fundbank_search dl{ padding:8px 0; overflow:hidden;}
+.fundbank_search dt{ width:80px;}
+.fundbank_search dd{ width:160px;}
+.fundbank_search input{ margin-right:5px; position:relative; top:1px; cursor:pointer;}
+.fundbank_search label{ cursor:pointer;}
+.cyw_btn_03{ height:26px; line-height:26px; background:#318cce; color:#fff; border:none; padding:0 10px;-moz-border-radius: 4px;	-webkit-border-radius: 4px;	border-radius: 4px;}
+
+.bank_list{ padding:15px 0; border-bottom:#eee solid 1px; overflow:hidden;}
+.bank_list_msg{ width:940px;}
+.bank_list .right{ padding-top:30px; padding-right:20px;}
+.bank_list .cyw_btn_02:hover{ background:#55a0d7 ; color:#fff;}
+
+.leader_msg .title_h1_border{ padding:15px;}
+.leader_msg ul{ width:350px;}
+.leader_msg li,.leader_msg p{ line-height:34px;}
+.bank_msg_lc{ padding:25px 0;}
+.bank_msg p{ padding-top:20px;}
+.bank_msg .cyw_btn_02:hover{ background:#55a0d7; color:#fff;}
+
+.form_content{}
+.form_content h3{ line-height:60px; padding:15px 0;  text-align:center;}
+.form_content dl{ overflow:hidden; padding-top:25px;}
+.form_content dt{ line-height:30px; text-align:right; width:76px; padding-right:5px;}
+.form_content .cyw_textarea_01{ position:relative; top:8px; width:700px; height:260px; margin-bottom:20px;}
+.bank_input{ border:#dadada  solid 1px; height:34px; line-height:34px; width:100px; padding:0 5px; margin:0 8px;}
+.form_content .cyw_btn_01:hover{ background:#55a0d7 ; color:#fff;}

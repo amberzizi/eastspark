@@ -1,0 +1,39 @@
+@charset "utf-8";
+/* CSS Document */
+
+.jobs_work{ width:480px; padding-right:25px;}
+.jobs_work_top{ border-bottom:#eee solid 1px; overflow:hidden;}
+.jobs_work_top ul{ width:229px; padding:15px 0 15px 10px; border-right:#eee solid 1px;}
+.jobs_work_top li{ padding-bottom:3px;}
+.jobs_work_list ul{ width:480px; padding:10px 0; line-height:28px;}
+.jobs_work_list li{ width:160px;}
+.jobs_cop{ width:595px;}
+.jobs_cop ul{ width:165px; padding:10px; border:#eee solid 1px; margin-top:20px;}
+.jobs_cop li{ padding-bottom:2px;}
+.jobs_width{ width:15px; height:10px;}
+.jobs_friends{ padding-top:25px; overflow:hidden;}
+.jobs_friends li{ width:200px; height:60px; border:#eee solid 1px; text-align:center; line-height:58px; margin-right:18px; margin-top:18px;}
+
+.jobs_search{ padding:10px 15px; overflow:hidden; margin-bottom:25px;}
+.jobs_search li{ width:150px; float:left; line-height:30px;}
+.jobs_search .jobs_search_a:hover{ color:#fff;}
+.jobs_search_a{ padding:0 5px; background:#318cce; color:#fff;}
+.jobs_wolist ul{ padding:10px 0; border-bottom:#eee solid 1px; overflow:hidden;}
+.job_width_280,.job_width_340,.job_width_300,.job_width_180{ height:25px; white-space:nowrap; text-overflow:ellipsis; -o-text-overflow:ellipsis; overflow:hidden;}
+.job_width_280{ width:300px;}
+.job_width_340{ width:310px;}
+.job_width_300{ width:340px;}
+.job_width_180{ width:150px; text-align:center;}
+
+.work_with_cop{ border-bottom:#eee solid 1px; padding-bottom:15px;}
+.work_with_cop h1{ padding-bottom:5px;}
+.work_with_txt{ padding:20px 2px;}
+.work_with_txt p{ line-height:30px; padding-bottom:20px;}
+.work_with_txt div{ text-align:center; padding-top:30px;}
+.work_with_txt .cyw_btn_02:hover{ color:#fff; background:#55a0d7;}
+
+.cop_works_list ul{padding:10px 0; border-bottom:#eee solid 1px; overflow:hidden;}
+
+/*9-25弹出遮罩修改*/
+.work_modal_bg{position:fixed;height:100%;width:100%;background-color:#000;z-index:100;top:0;left:0; filter:alpha(opacity=50);-moz-opacity:0.5;-khtml-opacity: 0.5; opacity: 0.5; }	  
+.work_modal{top:100px;left:50%;margin-left:-300px;position:absolute;z-index:101;}

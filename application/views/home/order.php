@@ -1,6 +1,6 @@
 <?php //var_dump($info);?>
 <div class="content_cy">
-    <div class="title_h1">集装箱出口流程 出货列表</div>
+    <div class="title_h1"><?=WEBSET_TITLE;?></div>
     <div>
     <br />
     <br />

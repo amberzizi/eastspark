@@ -15,6 +15,7 @@ class Order extends Base{
     }
     
     public function index(){
+        echo realpath(APPLICATION_CONTROLLERS);
         $date['kk']='sdsdsd';
         $this->load->view('headfeet/head');
         $this->load->view('home/order',$date);

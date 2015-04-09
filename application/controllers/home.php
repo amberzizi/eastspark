@@ -56,14 +56,15 @@ class Home extends Base{
     
     //========================海运费用 开始============================
     public function create_transport_fees(){
+        $this->_acl_login();
+        
         $this->_header['meta']['title'] = '海运费用';
         $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
-        $this->_header['meta']['css'][] = addCss('/resource/css/global.css');
-        $this->_header['meta']['css'][] = addCss('/resource/css/login.css');
-        $this->_header['meta']['css'][] = addCss('/resource/css/gg.css');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
         $date['list_id'] = $this->uri->segment(3);
         $date['shipment_id'] = $this->uri->segment(4);
-        $this->load->view('headfeet/head',$this->_header);
+        $this->load->view('headfeet/control_head',$this->_header);
         $this->load->view('/home/transport_fees',$date);
     }
     public function add_transport_fees(){

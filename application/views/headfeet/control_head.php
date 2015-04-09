@@ -211,7 +211,7 @@
         
         <div class="row">
             <div>
-                <p class="navbar-text pull-right">您好，<?=$this->session->userdata('manager_uname');?>。<a href="/user/login_manager/remove_session" class="btn btn-info">退出系统</a></p>
+                <p class="navbar-text pull-right">您好，<?=$this->session->userdata('manager_uname');?>。<a href="/user/login_manager/remove_session" class="btn btn-warning btn-xs">退出系统</a></p>
             </div>
         </div>
     

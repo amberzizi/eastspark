@@ -9,7 +9,7 @@ class Base extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->helper('html');
-        //$this->load->helper('url');
+        $this->load->helper('url');
         //$this->load->helper('cookie');
         //$this->load->library('session');
         
@@ -39,34 +39,41 @@ class Base extends CI_Controller {
             exit();
         }
     }
-    ///检验后台权限
-    protected function _acl($code = null) {
-        if($this->session->userdata('uid')!=null){
-            /*if($this->session->userdata('uid') == "1"){
-                return true;
-                exit();
-            }else{
-                if($code==null){
+    /**
+    *后台用户登录状态检查
+    * 
+    **/
+        protected function _acl_login($code = null) {
+            if ($this->session->userdata('manager_uid')) {
+                //超管
+                if ($this->session->userdata('manager_uid') == "1") {
                     return true;
                     exit();
-                }//如果没有传值直接通过
-                if(isset($this->session->userdata['purviews']->input->$code)){
-                    $result = true;   
-                }else{
-                    $result = false;
+                } else {
+                    $keyarray = array('indexuser', 'loginuser', 'house', 'community', 'datacount',);
+                    if ($code == null) {
+                        //无限权限制
+                        return true;
+                        exit();
+                    } else if (in_array($code, $keyarray)) {
+                        if ((isset($this->session->userdata['manager_purviews']->$code)) && ($this->session->userdata['manager_purviews']->$code == 1)) {
+                            return true;
+                            exit();
+                        } else {
+                            show_404(); //没有权限访问此模块，瞎打的
+                            exit();
+                        }
+                    } else {
+                        show_404(); //胡乱输入的模块
+                        exit();
+                    }
                 }
-                if($result==false){
-                    show_404();
-                }
-                return $result;
-                exit();      
-            }*/
-            return true;    
-        }else{
-            redirect('/admin/chuangye');
-            exit();
+            } else {
+                //return true;
+                redirect('/user/login_manager/admin_enter');
+                exit();
+            }
         }
-    }
     
         public function checkimg() {
         $path = $_POST['url'];
@@ -210,33 +217,25 @@ class Base extends CI_Controller {
             return false;
         }
     }
-    //分页方法 总数,每页显示数，页码,分页路径
-    protected function get_page($allnum, $maxnum, $pagenum, $base, $segment = 3)
-    {
+    
+    /**
+     *  分页方法 总数,每页显示数，页码,分页路径
+     **/
+    protected function get_page($allnum, $maxnum, $pagenum, $base, $segment = 3) {
         //分页----
         $config['base_url'] = base_url($base); //分页路径
         $config['uri_segment'] = $segment;
         $config['total_rows'] = $allnum;
         $config['per_page'] = $maxnum; //每页最大行数
         $config['use_page_numbers'] = true;
-        $config['num_links'] = 1;
-        //$config['cur_tag_open'] = '<b>';
+        $config['num_links'] = 5;
+        //=$config['cur_tag_open'] = '<b>';
         $config['prev_link'] = '上一页'; //关闭上一页
         $config['next_link'] = '下一页'; //关闭下一页
-        $config['cur_tag_open'] = '<span class="circlepage">'; //自定义当前页
-        $config['cur_tag_close'] = '</span>'; //自定义当前页
+        $config['cur_tag_open'] = '<a class="page_on">'; //自定义当前页
+        $config['cur_tag_close'] = '</a>'; //自定义当前页
         $config['last_link'] = '尾页';
         $config['first_link'] = '首页';
-        $config['num_tag_open'] = '<span class="circlepage">';//自定义数字链
-        $config['num_tag_close'] = '</span>';//自定义数字链
-        $config['first_tag_open'] = '<span class="wysd">';
-        $config['first_tag_close'] = '</span>';
-        $config['last_tag_open'] = '<span class="wysd">';
-        $config['last_tag_close'] = '</span>';
-        $config['prev_tag_open'] = '<span class="wysd">';
-        $config['prev_tag_close'] = '</span>';
-        $config['next_tag_open'] = '<span class="wysd">';
-        $config['next_tag_close'] = '</span>';
         return $config;
         //返回配置变量数组
     }

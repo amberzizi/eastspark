@@ -1,6 +1,5 @@
-<?php //var_dump($info);?>
+<div class="container">
 <div class="content_cy">
-    <div class="title_h1"><?=WEBSET_TITLE;?></div>
     <div>
     <br />
     <br />
@@ -116,5 +115,11 @@
     </div>
 
 
- 
+ </div>
 </div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#es_1").addClass('active'); 
+    $("#es_1_1").addClass('active');     
+});
+</script>

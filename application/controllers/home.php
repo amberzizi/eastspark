@@ -7,7 +7,7 @@ class Home extends Base{
     public function __construct(){
         parent::__construct();
         $this->load->helper('url');
-        //$this->load->library('session');
+        $this->load->library('session');
         $this->load->library('pagination'); 
     }
     
@@ -17,18 +17,19 @@ class Home extends Base{
     
     //========================货单列表 开始============================
     public function index(){
+        $this->_acl_login();
+        
         $this->_header['meta']['title'] = WEBSET_NAME;
         $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
-        $this->_header['meta']['css'][] = addCss('/resource/css/global.css');
-        $this->_header['meta']['css'][] = addCss('/resource/css/login.css');
-        $this->_header['meta']['css'][] = addCss('/resource/css/gg.css');
-        $this->_header['meta']['css'][] = addCss('/resource/css/template.css');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        
         //define('WEBSET_4TITLE','集装箱出口流程 出货列表333 系统');//订单相关存储位置
         $this->load->model('shipment_model','shipment');
         $date['info'] = $this->shipment->get_list_info();
         $date['all_num'] = $this->shipment->get_shipment_list_num();
         
-        $this->load->view('headfeet/head',$this->_header);
+        $this->load->view('headfeet/control_head',$this->_header);
         $this->load->view('/home/order',$date);
     }
     //新增单

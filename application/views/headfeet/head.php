@@ -17,40 +17,6 @@
         }
         ?>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <script type="text/javascript">
-            $(document).ready(function() {
-                var aMenuOneLi = $(".menu-one > li");
-                var aMenuTwo = $(".menu-two");
-                $(".menu-one > li > .header").each(function(i) {
-                    $(this).click(function() {
-                        if ($(aMenuTwo[i]).css("display") == "block") {
-                            $(aMenuTwo[i]).slideUp(300);
-                            $(aMenuOneLi[i]).removeClass("menu-show");
-                        } else {
-                            for (var j = 0; j < aMenuTwo.length; j++) {
-                                $(aMenuTwo[j]).slideUp(300);
-                                $(aMenuOneLi[j]).removeClass("menu-show");
-                            }
-                            $(aMenuTwo[i]).slideDown(300);
-                            $(aMenuOneLi[i]).addClass("menu-show");
-                        }
-                    });
-                });
-                var num1 = $('#channel1 >ul >li').length;
-                var num2 = $('#channel2 >ul >li').length;
-                var num3 = $('#channel3 >ul >li').length;
-                if(num1==0){
-                   $('#channel1').css('display','none'); 
-                }
-                if(num2==0){
-                   $('#channel2').css('display','none'); 
-                }
-                if(num3==0){
-                   $('#channel3').css('display','none'); 
-                }
-            });
-        </script>
-
     </head>
     <body class="body_bg">
 

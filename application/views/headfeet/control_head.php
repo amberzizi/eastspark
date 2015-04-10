@@ -166,9 +166,9 @@
                             <ul class="dropdown-menu es_drop_list">
                             <?php if(isset($this->session->userdata('manager_purviews')->loginuser) && $this->session->userdata('manager_purviews')->loginuser==='1'){?>
                                <li id="es_9_1"><a href="/user/login_manager/show_login_admin_list">账号及权限管理</a></li>            
+                               <li id="es_9_2"><a href="/user/login_manager/create_login_admin">新增员工</a></li>            
                                <li class="divider"></li>
                             <?php }?>
-                               <li><a href="">业务人员管理</a></li>
                                <li><a href="">订舱代理管理</a></li>
                                <li><a href="">客户管理</a></li>
                                <li class="divider"></li>

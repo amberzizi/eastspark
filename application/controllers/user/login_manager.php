@@ -313,6 +313,7 @@ class Login_manager extends Base {
         $this->_acl_login('loginuser');
         
         $this->_header['meta']['title'] = '用户资料及权限管理';
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery.md5.js');
         $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
         $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
         $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
@@ -441,7 +442,7 @@ class Login_manager extends Base {
         
         $id = $this->input->post('id'); 
         
-        var_dump($this->input->post('password'));
+        //var_dump($this->input->post('password'));
         
         $password = $this->input->post('password');
         $admin = $this->manager->get_admin_pw_by_id($id);
@@ -460,12 +461,9 @@ class Login_manager extends Base {
                         );
         $result = $this->manager->update_admin_info_by_id($id,$temp);
         
-        if($result > 0){
-           redirect('/user/login_manager/show_login_admin_list'); 
-        }else{
-            show_404();
-            return;
-        }
+        
+        redirect('/user/login_manager/show_login_admin_list'); 
+       
      }
      
     /**

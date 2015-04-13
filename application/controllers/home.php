@@ -21,8 +21,9 @@ class Home extends Base{
         
         $this->_header['meta']['title'] = WEBSET_NAME;
         $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
-        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.js');
         $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        //$this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap-theme.css');
         
         //define('WEBSET_4TITLE','集装箱出口流程 出货列表333 系统');//订单相关存储位置
         $this->load->model('shipment_model','shipment');
@@ -53,6 +54,33 @@ class Home extends Base{
     }
     
     //========================货单列表 完成============================
+    
+    
+    //========================状态变更 开始============================
+    public function order_state(){
+        $this->_acl_login();
+        //$this->load->model('web_head_model');
+        $this->_header['meta']['title'] = '状态变更';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/order/state_change');
+        
+        
+    }
+    
+     public function get_order_state(){
+        $this->_acl_login();
+        var_dump($this->input->post('state'));
+        
+    }
+    
+    //========================状态变更 完成============================
+    
     
     //========================海运费用 开始============================
     public function create_transport_fees(){

@@ -3,7 +3,79 @@
 .es_table_color{
     background-color: #add8e6;
 }
+.es_table_ali th,
+.es_table_ali td{
+   text-align:center;
+}
+
 </style>
+
+        <div class="panel panel-default well">
+            <div class="table-responsive table-condensed"><!--内容列表-->
+                <table class="table es_table_ali table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="出货编号作为内部运单管理编号,格式:ES_编号_集装箱C / 散货船B_OUT">
+                                出货编号</a>
+                            </th>
+                            <th>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="在提单号生成后,操作人员该票在《提单状态变更》中录入,此列将显示本票货品提单号">
+                                提单号</a>
+                            </th>
+                            <th>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="操作负责人">
+                                负责人</a>
+                            </th>
+                            <th>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="可进行本票货品各个关键环节状态更改">
+                                提单状态变更</a>
+                            </th>
+                            <th>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="货品基本信息及订舱代理、海运费利润计算等">
+                                海运费及基本信息</a>
+                            </th>
+                            <th>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="装箱信息等">
+                                报关前管理</a>
+                            </th>
+                            <th>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="关税、单据电子版、是否验货等信息">
+                                报关中管理</a>
+                            </th>
+                            <th>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="提单电子版上传备份">
+                                提单转客户</a>
+                            </th>
+                            <th>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="港杂费用明细">
+                                港杂费</a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ES1COUT</td>
+                            <td>未生成</td>
+                            <td>李楠</td>
+                            <td><a class="btn btn-info btn-xs" href="/home/order_state">状态变更</a></td>
+                            <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
+                            <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
+                            <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
+                            <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
+                            <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+    
+
+
+
+
+
     <div class="container">
         <div class="row">
             <a class="btn btn-info btn-xs" href="/home/add_new_list">添加新单</a><br /><br />
@@ -123,4 +195,10 @@ $(document).ready(function(){
     $("#es_1").addClass('active'); 
     $("#es_1_1").addClass('active');     
 });
+</script type="text/javascript">
+<script>
+   $(function () { $("[data-toggle='tooltip']").tooltip(); });
 </script>
+
+ </body>
+ </html>

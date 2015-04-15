@@ -75,8 +75,8 @@ class Home extends Base{
     
      public function get_order_state(){
         $this->_acl_login();
-        var_dump($this->input->post('state'));
-        
+        //var_dump($this->input->post('state'));
+        redirect('/home');
     }
     
     //========================状态变更 完成============================

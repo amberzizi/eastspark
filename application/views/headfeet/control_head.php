@@ -169,7 +169,7 @@
                                <li id="es_9_2"><a href="/user/login_manager/create_login_admin">新增员工</a></li>            
                                <li class="divider"></li>
                             <?php }?>
-                               <li><a href="">订舱代理管理</a></li>
+                               <li id="es_9_3"><a href="/login/coop/coop_com_list">订舱代理管理</a></li>
                                <li><a href="">客户管理</a></li>
                                <li class="divider"></li>
                                <li><a href="#">系统设定</a></li>

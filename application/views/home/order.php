@@ -24,6 +24,10 @@
                                 提单号</a>
                             </th>
                             <th>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="运单操作进度">
+                                进度</a>
+                            </th>
+                            <th>
                                 <a href="#" data-toggle="tooltip" data-placement="top" title="操作负责人">
                                 负责人</a>
                             </th>
@@ -57,6 +61,7 @@
                         <tr>
                             <td>ES1COUT</td>
                             <td>未生成</td>
+                            <td>集港上船</td>
                             <td>李楠</td>
                             <td><a class="btn btn-info btn-xs" href="/home/order_state">状态变更</a></td>
                             <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>

@@ -2,12 +2,12 @@
 
 <div class="container"> 
  
- <form action="/login/coop/do_update_coop_com" method="post" role="form" class="form-horizontal">
+ <form action="/login/coop/do_update_coop_harbour" method="post" role="form" class="form-horizontal">
   <input type="hidden" name="did" value="<?=$info[0]->id;?>"/>
      <div class="form-group">
-            <label for="coop_name" class="col-sm-4 control-label">名称:</label>
+            <label for="coop_harbour" class="col-sm-4 control-label">名称:</label>
          <div class="col-sm-4">
-            <input type="text" name="coop_name" class="form-control" id="coop_name" placeholder="请输入名称" value="<?=$info[0]->coop_name;?>"/>
+            <input type="text" name="coop_harbour" class="form-control" id="coop_harbour" placeholder="请输入名称" value="<?=$info[0]->coop_harbour;?>"/>
          </div>
      </div>
      
@@ -26,6 +26,6 @@
  <script type="text/javascript">
 $(document).ready(function(){
     $("#es_9").addClass('active');    
-    $("#es_9_3").addClass('active');     
+    $("#es_9_5").addClass('active');     
 });
 </script>

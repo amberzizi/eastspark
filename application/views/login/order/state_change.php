@@ -36,9 +36,6 @@
                                      value="5" /> 提单生成
                                </label>
                         </div>
-                            
-                           
-                        
                     </div>
             </div>  
             <div class="form-group">
@@ -48,6 +45,18 @@
                             <option>李楠</option>
                             <option>李楠1</option>
                         </select>
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="number" class="col-sm-4 control-label">运抵港口</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="number" placeholder="ES_01"/>
+                    </div>
+            </div>
+            <div class="form-group">
+                <label for="number" class="col-sm-4 control-label">集装箱箱号</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" id="number" placeholder="格式：A-DNAJ897869,B-SDSD23242,A-RFRF8378..."/>
                     </div>
             </div>
             <div class="form-group">

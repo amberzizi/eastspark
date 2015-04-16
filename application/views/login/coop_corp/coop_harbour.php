@@ -6,7 +6,7 @@
 </style>
 <div class="container">
         <div id="addinfo">
-            <a class="btn btn-primary btn-xs" href="/login/coop/add_coop">新增订舱代理</a>
+            <a class="btn btn-primary btn-xs" href="/login/coop/add_harbour">新增运抵港口</a>
         </div>
         <table class="table">
         <tr>
@@ -19,11 +19,11 @@
         <?php foreach($info_list as $value):?>
         <tr>
         <td><?=$value->id;?></td>
-        <td><?=$value->coop_name;?></td>
+        <td><?=$value->coop_harbour;?></td>
         <td><?=$value->content;?></td>
         <td><?=$value->create_time;?></td>
-        <td><a href="/login/coop/update_coop_com/<?=$value->id;?>">编辑</a>|
-        <a href="/login/coop/delete_coop_com/<?=$value->id;?>">删除</a>
+        <td><a href="/login/coop/update_coop_harbour/<?=$value->id;?>">编辑</a>|
+        <a href="/login/coop/delete_coop_harbour/<?=$value->id;?>">删除</a>
         </td>
         </tr>
         <?php endforeach;?>
@@ -43,7 +43,7 @@
   <script type="text/javascript">
 $(document).ready(function(){
     $("#es_9").addClass('active');    
-    $("#es_9_3").addClass('active');     
+    $("#es_9_5").addClass('active');     
 });
 </script>
  

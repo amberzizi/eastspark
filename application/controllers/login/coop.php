@@ -206,8 +206,344 @@ class Coop extends Base {
         redirect('/login/coop/coop_com_list');
 
     }
+    
+    
+    //====客户=======
+    
+    /**
+    *
+    * 客户  列表
+    * 
+    */
+    public function coop_client_list($page='-99') {
+        $this->_acl_login('loginuser');
+        //$this->load->model('web_head_model');
+        $this->_header['meta']['title'] = '订舱代理管理';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        
+        //$this->load->view('templates/header', $this->_header);
+       // $this->load->view('templates/home', $data);
+        //$this->load->view('templates/footer');
+        
+        
+        //分页======
+        if ($page !== '-99') {
+            $pagenum = $page;
+        } else {
+            $pagenum = 1;
+        }
 
+        //设置每页分页显示数据条数
+
+
+        $allnum = $this->coop->get_client_num_m();
+        $maxnum = 5;
+        $config = $this->get_page($allnum, $maxnum, $pagenum,
+            'login/coop/coop_client_list/', 4);
+        $this->pagination->initialize($config);
+        $data['allnum'] = $allnum;
+        $data['page'] = $this->pagination->create_links();
+        $data['info_list'] = $this->coop->get_client_list_m($maxnum, $maxnum * ($pagenum -
+            1));
+        //分页结束======
+        
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/coop_corp/coop_client',$data);
+    }
+    
+    /**
+     *
+     * 客户 新增
+     * 
+     * 
+     **/
+    public function add_client()
+    {
+        $this->_acl_login('loginuser');
+        
+        $this->_header['meta']['title'] = '新增订舱代理管理';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/coop_corp/add_client');
+    }
+    /**
+     *
+     * 客户 新增
+     * 
+     * 
+     **/
+    public function do_add_client(){
+        $this->_acl_login('loginuser');
+        
+        $coop_client = htmlspecialchars(trim($this->input->post('coop_client')));
+        $content = htmlspecialchars(trim($this->input->post('content')));
+        $create_time = date('Y-m-d H:i:s');
+
+
+        $upload_data = array(
+            'coop_client' => $coop_client,
+            'content' => $content,
+            'create_time' => $create_time,
+            );
+
+
+        $this->coop->add_coop_client($upload_data);
+        redirect('/login/coop/coop_client_list');
+        
+    }
+    /**
+     *
+     * 客户 删除
+     * 
+     * 
+     **/
+    public function delete_coop_client($did = '-99'){
+        $this->_acl_login('loginuser');
+
+        if ($did !== '-99') {
+            $d_id = $did;
+        } else {
+            show_404();
+            return;
+        }
+
+        $this->coop->delete_coop_client_by_id($d_id);
+         redirect('/login/coop/coop_client_list');
+    }
+    /**
+     *
+     * 客户 更新
+     * 
+     * 
+     **/
+     public function update_coop_client($did = '-99')
+    {
+        $this->_acl_login('loginuser');
+        
+        $this->_header['meta']['title'] = '新增订舱代理管理';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+
+        if ($did !== '-99') {
+            $d_id = $did;
+        } else {
+            show_404();
+            return;
+        }
+
+        $data['info'] = $this->coop->get_coop_client_info_by_id($d_id);
+
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/coop_corp/update_coop_client',$data);
+
+
+    }
+    /**
+     *
+     * 客户 更新
+     * 
+     * 
+     **/
+    public function do_update_coop_client()
+    {
+        $this->_acl_login('loginuser');
+
+        $coop_client = htmlspecialchars(trim($this->input->post('coop_client')));
+        $content = htmlspecialchars(trim($this->input->post('content')));
+        $did = htmlspecialchars(trim($this->input->post('did')));
+
+        $upload_data = array(
+            'coop_client' => $coop_client,
+            'content' => $content,
+            );
+
+        $this->coop->do_update_coop_client_by_id($upload_data, $did);
+        redirect('/login/coop/coop_client_list');
+
+    }
+    
+    
+    
+        //====港口=======
+    
+    /**
+    *
+    * 港口  列表
+    * 
+    */
+    public function coop_harbour_list($page='-99') {
+        $this->_acl_login('loginuser');
+        //$this->load->model('web_head_model');
+        $this->_header['meta']['title'] = '订舱代理管理';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        
+        //$this->load->view('templates/header', $this->_header);
+       // $this->load->view('templates/home', $data);
+        //$this->load->view('templates/footer');
+        
+        
+        //分页======
+        if ($page !== '-99') {
+            $pagenum = $page;
+        } else {
+            $pagenum = 1;
+        }
+
+        //设置每页分页显示数据条数
+
+
+        $allnum = $this->coop->get_harbour_num_m();
+        $maxnum = 5;
+        $config = $this->get_page($allnum, $maxnum, $pagenum,
+            'login/coop/coop_harbour_list/', 4);
+        $this->pagination->initialize($config);
+        $data['allnum'] = $allnum;
+        $data['page'] = $this->pagination->create_links();
+        $data['info_list'] = $this->coop->get_harbour_list_m($maxnum, $maxnum * ($pagenum -
+            1));
+        //分页结束======
+        
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/coop_corp/coop_harbour',$data);
+    }
+    
+    /**
+     *
+     * 港口 新增
+     * 
+     * 
+     **/
+    public function add_harbour()
+    {
+        $this->_acl_login('loginuser');
+        
+        $this->_header['meta']['title'] = '新增订舱代理管理';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/coop_corp/add_harbour');
+    }
+    /**
+     *
+     * 港口 新增
+     * 
+     * 
+     **/
+    public function do_add_harbour(){
+        $this->_acl_login('loginuser');
+        
+        $coop_harbour = htmlspecialchars(trim($this->input->post('coop_harbour')));
+        $content = htmlspecialchars(trim($this->input->post('content')));
+        $create_time = date('Y-m-d H:i:s');
+
+
+        $upload_data = array(
+            'coop_harbour' => $coop_harbour,
+            'content' => $content,
+            'create_time' => $create_time,
+            );
+
+
+        $this->coop->add_coop_harbour($upload_data);
+        redirect('/login/coop/coop_harbour_list');
+        
+    }
+    /**
+     *
+     * 港口 删除
+     * 
+     * 
+     **/
+    public function delete_coop_harbour($did = '-99'){
+        $this->_acl_login('loginuser');
+
+        if ($did !== '-99') {
+            $d_id = $did;
+        } else {
+            show_404();
+            return;
+        }
+
+        $this->coop->delete_coop_harbour_by_id($d_id);
+         redirect('/login/coop/coop_harbour_list');
+    }
+    /**
+     *
+     * 港口 更新
+     * 
+     * 
+     **/
+     public function update_coop_harbour($did = '-99')
+    {
+        $this->_acl_login('loginuser');
+        
+        $this->_header['meta']['title'] = '新增订舱代理管理';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+
+        if ($did !== '-99') {
+            $d_id = $did;
+        } else {
+            show_404();
+            return;
+        }
+
+        $data['info'] = $this->coop->get_coop_harbour_info_by_id($d_id);
+
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/coop_corp/update_coop_harbour',$data);
+
+
+    }
+    /**
+     *
+     * 港口 更新
+     * 
+     * 
+     **/
+    public function do_update_coop_harbour()
+    {
+        $this->_acl_login('loginuser');
+
+        $coop_harbour = htmlspecialchars(trim($this->input->post('coop_harbour')));
+        $content = htmlspecialchars(trim($this->input->post('content')));
+        $did = htmlspecialchars(trim($this->input->post('did')));
+
+        $upload_data = array(
+            'coop_harbour' => $coop_harbour,
+            'content' => $content,
+            );
+
+        $this->coop->do_update_coop_harbour_by_id($upload_data, $did);
+        redirect('/login/coop/coop_harbour_list');
+
+    }
 
 }
 
-?>
+/** here is the end of this page**/

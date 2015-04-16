@@ -170,7 +170,8 @@
                                <li class="divider"></li>
                             <?php }?>
                                <li id="es_9_3"><a href="/login/coop/coop_com_list">订舱代理管理</a></li>
-                               <li><a href="">客户管理</a></li>
+                               <li id="es_9_4"><a href="/login/coop/coop_client_list">客户管理</a></li>
+                               <li id="es_9_5"><a href="/login/coop/coop_harbour_list">运抵港口管理</a></li>
                                <li class="divider"></li>
                                <li><a href="#">系统设定</a></li>
                                <li><a href="#">系统日志</a></li>

@@ -232,7 +232,7 @@ class Base extends CI_Controller {
         //=$config['cur_tag_open'] = '<b>';
         $config['prev_link'] = '上一页'; //关闭上一页
         $config['next_link'] = '下一页'; //关闭下一页
-        $config['cur_tag_open'] = '<a class="page_on">'; //自定义当前页
+        $config['cur_tag_open'] = '<a class="page_on" style="color:red;">'; //自定义当前页
         $config['cur_tag_close'] = '</a>'; //自定义当前页
         $config['last_link'] = '尾页';
         $config['first_link'] = '首页';

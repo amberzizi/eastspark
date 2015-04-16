@@ -43,8 +43,10 @@
                                <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu es_drop_list">
-                               <li id="es_1_1"><a href="/home">集装箱操作</a></li>
-                               <li id="es_1_2"><a href="">散货船操作</a></li>
+                               <li id="es_1_1"><a href="/login/shipment/shipment_container_list_doing">未完成集装箱操作</a></li>
+                               <li id="es_1_2"><a href="">未完成散货船操作</a></li>
+                               <li id="es_1_3"><a href="/login/shipment/shipment_container_list_did">已完成集装箱查看</a></li>
+                               <li id="es_1_4"><a href="">已完成散货船操作</a></li>
                                 <li class="divider"></li>
                                <li id="es_1_3"><a href="">船舶信息登记</a></li>
                             </ul>

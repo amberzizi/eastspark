@@ -8,11 +8,97 @@ class Shipment_model extends CI_Model {
         $this->load->database();
     }
     
-    //添加单号列表信息
+    
+    /**
+	 * 集装箱  数量  分页结果集
+     * @param ['0' 进行中    '1'已完成]
+	 */ 
+    public function get_container_num($do = '0'){
+        $this->db->from('es_shipment_container_list');
+        $this->db->where(array('bill_num_state' => $do));
+        $query = $this->db->count_all_results();
+        return $query;
+    }
+    /**
+	 * 集装箱   分页结果集
+     * @param 每页数量
+     * @param 偏移量
+     * @param ['0' 进行中    '1'已完成]
+	 */ 
+    public function get_container_list($limit, $offset,$do = '0'){
+        $this->db->select('a.*,u.name as manager_name');
+        $this->db->from('es_shipment_container_list a');
+        $this->db->join('es_user_login u','u.id = a.manager_id','left');
+        $this->db->where(array('a.bill_num_state' => $do));
+        $this->db->order_by('a.id','desc');
+        $this->db->limit($limit,$offset);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    
+    /**
+	 * 集装箱   获取最后一个插入id号
+	 */ 
+    public function get_last_id_num(){
+        $this->db->select('id');
+        $this->db->order_by('id','desc');
+        $this->db->limit(1,0);
+        $query = $this->db->get('es_shipment_container_list');
+        return $query->result()[0]->id;
+    }
+    
+    /**
+	 * 集装箱   添加单号列表信息
+	 */ 
     public function add_new_shipment_list($date){
         
-        $this->db->insert('shipment_list',$date);
+        $this->db->insert('es_shipment_container_list',$date);
     }
+    /**
+	 * 集装箱   根据集装箱 ID 获取状态相关字段
+     * @parem 集装箱id
+	 */
+    public function get_shipment_contaniner_state($s_id){
+        $this->db->select('id,shipment_id,link,manager_id,harbour,container_num,lading_bill,bill_num_state');
+        $this->db->from('es_shipment_container_list');
+        $this->db->where(array('id' => $s_id));
+        $query = $this->db->get();
+        return $query->result();
+    }
+    
+    /**
+	 * 集装箱   业务部员工列表
+     * 
+	 */
+    public function get_manager_list_for_shipment(){
+        $this->db->select('id,name');
+        $this->db->from('es_user_login');
+        $this->db->where(array('department' => '1'));
+        $query = $this->db->get();
+        return $query->result();
+    }
+    /**
+	 * 集装箱   港口列表
+     * 
+	 */
+    public function get_harbour_list_for_shipment(){
+        $this->db->from('es_coop_harbour');
+        $query = $this->db->get();
+        return $query->result();
+    }
+    
+    /**
+	 * 集装箱   更新状态信息
+     * @param 更新id
+     * @param 更新数据
+	 */
+    public function update_shipment_container_state($sid,$data){
+        $this->db->where(array('id' => $sid));
+        $this->db->update('es_shipment_container_list',$data);
+    }
+    
+    
+    
     
     //获取单号总信息列表
     public function get_list_info(){
@@ -21,14 +107,7 @@ class Shipment_model extends CI_Model {
         $query = $this->db->get('shipment_list');
         return $query->result();
     }
-    //获取最后一个ID编号 
-    public function get_last_id_num(){
-        $this->db->select('id');
-        $this->db->order_by('id','desc');
-        $this->db->limit(1,0);
-       $query = $this->db->get('shipment_list');
-        return $query->result()[0]->id;
-    }
+    
     //删除单
     public function delete_shipment_list_info_by_id($dele_id){
         $this->db->delete('shipment_list',array('id' => $dele_id)); 

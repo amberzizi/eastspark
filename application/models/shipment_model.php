@@ -59,7 +59,8 @@ class Shipment_model extends CI_Model {
      * @parem 集装箱id
 	 */
     public function get_shipment_contaniner_state($s_id){
-        $this->db->select('id,shipment_id,link,manager_id,harbour,container_num,lading_bill,bill_num_state,wharf,in_wharf_time,out_wharf_time');
+        $this->db->select('id,shipment_id,link,manager_id,harbour,container_num,lading_bill,bill_num_state,wharf,in_wharf_time,out_wharf_time
+        ,turn_harbour,voyage,shipper,recipient');
         $this->db->from('es_shipment_container_list');
         $this->db->where(array('id' => $s_id));
         $query = $this->db->get();
@@ -86,7 +87,15 @@ class Shipment_model extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
-    
+    /**
+	 * 集装箱   客户列表
+     * 
+	 */
+    public function get_client_list_for_shipment(){
+        $this->db->from('es_coop_client');
+        $query = $this->db->get();
+        return $query->result();
+    }
     /**
 	 * 集装箱   更新状态信息
      * @param 更新id
@@ -96,7 +105,16 @@ class Shipment_model extends CI_Model {
         $this->db->where(array('id' => $sid));
         $this->db->update('es_shipment_container_list',$data);
     }
-    
+    /**
+	 * 集装箱  检查主键重复性
+     * @param shipment_id
+	 */
+    public function check_transport_fees_if_have($data){
+        $this->db->from('es_shipment_container_transport_fees');
+        $this->db->where(array('shipment_id' => $data));
+        $query = $this->db->count_all_results();
+        return $query;
+    }
     /**
 	 * 集装箱   添加 海运费
      * 

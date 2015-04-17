@@ -76,8 +76,24 @@
                                     else if($value->link == '4'){echo '集港上船';}else if($value->link == '5'){echo '提单生成';}?></td>
                             <!--运单操作人-->
                             <td><?=$value->manager_name;?></td>
-                            <td><a class="btn btn-info btn-xs" href="/login/shipment/shipment_container_state/<?=$value->id;?>">修改</a></td>
-                            <td><a class="btn btn-info btn-xs" href="/login/shipment/create_container_transport_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">创建</a></td>
+                            <td>
+                                
+                                <a class="btn btn-info btn-xs" 
+                                    href="/login/shipment/shipment_container_state/<?=$value->id;?>">完善信息</a>
+                                
+                            </td>
+                            <td>
+                                <?php if($value->transport_fees === '2'){?>
+                                    <a class="btn btn-info btn-xs" 
+                                        href="/login/shipment/create_container_transport_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">创建</a>
+                                <?php }else if($value->transport_fees === '0'){?>
+                                    <a class="btn btn-warning btn-xs" 
+                                        href="/login/shipment/create_container_transport_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">修改</a>
+                                <?php }else if($value->transport_fees === '1'){?>
+                                    <a class="btn btn-success btn-xs" 
+                                        href="#">完成</a>
+                                <?php }?>
+                            </td>
                             <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
                             <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
                             <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>

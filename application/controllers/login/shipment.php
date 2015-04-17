@@ -186,7 +186,8 @@ class Shipment extends Base{
         $data['manager'] = $this->shipment->get_manager_list_for_shipment();
         //可运抵港口
         $data['harbour'] = $this->shipment->get_harbour_list_for_shipment();
-        
+        //客户列表
+        $data['client'] = $this->shipment->get_client_list_for_shipment();
         
         
         
@@ -222,6 +223,11 @@ class Shipment extends Base{
         }
         $data['in_wharf_time'] = htmlspecialchars(trim($this->input->post('in_wharf_time')));
         $data['out_wharf_time'] = htmlspecialchars(trim($this->input->post('out_wharf_time')));
+        $data['turn_harbour'] = htmlspecialchars(trim($this->input->post('turn_harbour')));
+        $data['voyage'] = htmlspecialchars(trim($this->input->post('voyage')));
+        $data['ship_id'] = $this->input->post('ship_id');
+        $data['shipper'] = htmlspecialchars(trim($this->input->post('shipper')));
+        $data['recipient'] = $this->input->post('recipient');
         
         $data['bill_num_state'] = $this->input->post('bill_num_state');
         
@@ -306,8 +312,23 @@ class Shipment extends Base{
         
         $data['create_time'] = date('Y-m-d H:i:s');
         
+        //检查是否主键重复
+        $check = $this->shipment->check_transport_fees_if_have($data['shipment_id']);
+        if($check != '0'){
+            show_404();
+            die();
+        }
         
-        $re = $this->shipment->add_transport_fees($data);
+        //创建海运费记录
+        try{
+            $re = $this->shipment->add_transport_fees($data);
+            
+        }catch(mysqli_sql_exception $e){
+            show_404();
+            die();
+        }
+        
+        
         //在首次创建的时候如果 选择最终确定  也可以更改列表状态 将无法管理
         //初始化  2 未创建   1最终确定  0未确定
         if($data['state'] == '1'){

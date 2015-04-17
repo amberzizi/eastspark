@@ -60,7 +60,14 @@
                                     </div>
                             </div>
                             <div class="form-group">
-                                <label for="harbour" class="col-sm-4 control-label">运抵港口</label>
+                                <label for="turn_harbour" class="col-sm-4 control-label">中转港口</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="turn_harbour" placeholder="多个可用,隔开" name="turn_harbour"
+                                         value="<?=$container_state_info[0]->turn_harbour;?>"/>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="harbour" class="col-sm-4 control-label">目的港口</label>
                                     <div class="col-sm-4">
                                         <select class="form-control es_harbour" name="harbour" id="harbour">
                                             <?php foreach($harbour as $value):?>
@@ -97,6 +104,40 @@
                     <!--表单左列 结束-->
                     <!--表单右列 开始-->
                     <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ship_id" class="col-sm-4 control-label">船名</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control es_manager" name="ship_id" id="ship_id">
+                                            <?php foreach($manager as $value):?>
+                                                <option value="<?=$value->id;?>"><?=$value->name;?></option>
+                                            <?php endforeach;?>
+                                        </select>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="voyage" class="col-sm-4 control-label">航次</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="voyage" placeholder="如：航次号" name="voyage"
+                                        value="<?=$container_state_info[0]->voyage;?>"/>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="shipper" class="col-sm-4 control-label">托运人</label>
+                                    <div class="col-sm-4">
+                                        <input type="text" class="form-control" id="shipper" placeholder="" name="shipper"
+                                        value="<?=$container_state_info[0]->shipper;?>"/>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="recipient" class="col-sm-4 control-label">受货人</label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control es_recipient" name="recipient" id="recipient">
+                                            <?php foreach($client as $value):?>
+                                                <option value="<?=$value->id;?>"><?=$value->coop_client;?></option>
+                                            <?php endforeach;?>
+                                        </select>
+                                    </div>
+                            </div>
                             <div class="form-group">
                                 <label for="wharf" class="col-sm-4 control-label">装货码头</label>
                                     <div class="col-sm-4">
@@ -149,10 +190,12 @@ $(document).ready(function(){
    var link = "<?=$container_state_info[0]->link;?>";
    var manager_id = "<?=$container_state_info[0]->manager_id;?>";
    var harbour = "<?=$container_state_info[0]->harbour;?>";
+   var recipient = "<?=$container_state_info[0]->recipient;?>";
     //运单环节
     $(".es_checked[value='"+link+"']").attr('checked',true);
     $(".es_manager").val(manager_id);
     $(".es_harbour").val(harbour);
+    $(".es_recipient").val(recipient);
    
    
     

@@ -153,12 +153,26 @@ class Shipment extends Base{
         //$this->_acl_login('shipment');
         $this->_acl_login();
         
-        $this->_header['meta']['title'] = '状态变更';
+        $this->_header['meta']['title'] = '提单信息及状态';
         $this->_header['meta']['keywords'] = '伊斯';
         $this->_header['meta']['description'] = '伊斯';
+
         $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui-slide.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui-timepicker-addon.js');
+        
         $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
         $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['js'][] = addCss('/resource/timepicker/css/jquery-ui.css');
+        
+     
+     
+
+        
+        
+        
+        
         
         if ($sid !== '-99') {
             $s_id = $sid;
@@ -202,6 +216,13 @@ class Shipment extends Base{
         if(!empty($this->input->post('lading_bill'))){
             $data['lading_bill'] = htmlspecialchars(trim($this->input->post('lading_bill')));
         }
+        $data['wharf']='0';
+        if(!empty($this->input->post('wharf'))){
+            $data['wharf'] = htmlspecialchars(trim($this->input->post('wharf')));
+        }
+        $data['in_wharf_time'] = htmlspecialchars(trim($this->input->post('in_wharf_time')));
+        $data['out_wharf_time'] = htmlspecialchars(trim($this->input->post('out_wharf_time')));
+        
         $data['bill_num_state'] = $this->input->post('bill_num_state');
         
         $sid = $this->input->post('sid');
@@ -214,11 +235,101 @@ class Shipment extends Base{
 
 //========================状态变更 完成============================
 
+//========================海运费用 开始============================
+
+    /**
+    *
+    * 运单  集装箱container   创建海运费
+    * 
+    * 1
+    */
+    public function create_container_transport_fees($sid='-99',$lid ='-99'){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $this->_header['meta']['title'] = '创建海运费';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');     
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+
+        
+        
+        if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            return;
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+        
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_transport_fees',$data);
+    }
+
+    /**
+    *
+    * 运单  集装箱container   增加海运费
+    * 
+    * 1
+    */
+    public function add_container_transport_fees(){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $data['shipment_id'] = $this->input->post('shipment_id');
+        $data['list_id'] = $this->input->post('list_id');
+        $data['cargo_type'] = htmlspecialchars(trim($this->input->post('cargo_type')));
+        $data['agent'] = $this->input->post('agent');
+        $data['box_type'] = $this->input->post('box_type');
+        $data['box_num'] = htmlspecialchars(trim($this->input->post('box_num')));
+        $data['post_cost'] = htmlspecialchars(trim($this->input->post('post_cost')));
+        $data['sea_cost'] = htmlspecialchars(trim($this->input->post('sea_cost')));
+        $data['all_post_cost'] = htmlspecialchars(trim($this->input->post('all_post_cost')));
+        $data['all_sea_cost'] = htmlspecialchars(trim($this->input->post('all_sea_cost')));
+        $data['gain'] = htmlspecialchars(trim($this->input->post('gain')));
+        $data['client'] = $this->input->post('client');
+        $data['state'] = $this->input->post('state');
+        
+        $data['cargo_type_e'] = htmlspecialchars(trim($this->input->post('cargo_type_e')));
+        $data['wrap_num'] = htmlspecialchars(trim($this->input->post('wrap_num')));
+        $data['wrap_type'] = htmlspecialchars(trim($this->input->post('wrap_type')));
+        $data['net_weight'] = htmlspecialchars(trim($this->input->post('net_weight')));
+        $data['gross_weight'] = htmlspecialchars(trim($this->input->post('gross_weight')));
+        $data['bulk'] = htmlspecialchars(trim($this->input->post('bulk')));
+        $data['require'] = htmlspecialchars(trim($this->input->post('require')));
+        
+        $data['create_time'] = date('Y-m-d H:i:s');
+        
+        
+        $re = $this->shipment->add_transport_fees($data);
+        //在首次创建的时候如果 选择最终确定  也可以更改列表状态 将无法管理
+        //初始化  2 未创建   1最终确定  0未确定
+        if($data['state'] == '1'){
+            $state = '1';
+            $this->shipment->change_transport_fees_state_in_list($data['list_id'],$state);
+            
+        }else if($re == true){
+            $state = '0';
+            $this->shipment->change_transport_fees_state_in_list($data['list_id'],$state);
+        }
+         
+   
+            redirect('/login/shipment/shipment_container_list_doing'); 
+        
+    }
 
 
 
 
 
+
+//========================海运费用 完成============================
 
 
 

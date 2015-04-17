@@ -4,7 +4,7 @@
         </div>
         <div class="col-md-8">
             <div class="jumbotron">
-                <h2>伊斯货运后台管理系统</h2>
+                <h2>科员后台管理系统</h2>
                 <p>=======管理员登陆=========</p>
                 <div class="form-group">
                             <form action="/user/login_manager/check_admin_info" method="post">

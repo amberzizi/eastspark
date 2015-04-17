@@ -59,7 +59,7 @@ class Shipment_model extends CI_Model {
      * @parem 集装箱id
 	 */
     public function get_shipment_contaniner_state($s_id){
-        $this->db->select('id,shipment_id,link,manager_id,harbour,container_num,lading_bill,bill_num_state');
+        $this->db->select('id,shipment_id,link,manager_id,harbour,container_num,lading_bill,bill_num_state,wharf,in_wharf_time,out_wharf_time');
         $this->db->from('es_shipment_container_list');
         $this->db->where(array('id' => $s_id));
         $query = $this->db->get();
@@ -97,7 +97,31 @@ class Shipment_model extends CI_Model {
         $this->db->update('es_shipment_container_list',$data);
     }
     
+    /**
+	 * 集装箱   添加 海运费
+     * 
+     * @param 数据
+	 */
+    public function add_transport_fees($date){
+        $this->db->insert('es_shipment_container_transport_fees',$date);
+        $re = $this->db->affected_rows();
+        if($re>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
     
+    /**
+	 * 集装箱   更改 货单list 中的海运费状态
+     * 
+     * @param 集装箱列表 id
+     * @param 状态  2为创建 0 未完成 1 完成
+	 */
+    public function change_transport_fees_state_in_list($list_id,$state){
+        $this->db->where(array('id' => $list_id));
+        $this->db->update('es_shipment_container_list',array('transport_fees' => $state));
+    }
     
     
     //获取单号总信息列表
@@ -119,11 +143,7 @@ class Shipment_model extends CI_Model {
         return $query;
     }
     
-    //更改 货单list 中的海运费状态
-    public function change_transport_fees_state_in_list($list_id,$state){
-        $this->db->where(array('id' => $list_id));
-        $this->db->update('shipment_list',array('transport_fees' => $state));
-    }
+    
     //更改 货单list 中的报关中状态
     public function change_middle_apply_state_in_list($list_id,$state){
         $this->db->where(array('id' => $list_id));
@@ -141,17 +161,7 @@ class Shipment_model extends CI_Model {
     }
     
     
-    // 海运费<!-- phpDesigner :: Timestamp [2014/10/5 0:24:04] -->
-    //添加 海运费
-    public function add_transport_fees($date){
-        $this->db->insert('transport_fees',$date);
-        $re = $this->db->affected_rows();
-        if($re>0){
-            return true;
-        }else{
-            return false;
-        }
-    }
+    
     //根据list_id 获取单条海运费信息
     public function get_fees_info_by_id($list_id){
         $this->db->where(array('list_id' => $list_id));

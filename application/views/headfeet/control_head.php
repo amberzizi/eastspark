@@ -48,7 +48,7 @@
                                <li id="es_1_3"><a href="/login/shipment/shipment_container_list_did">已完成集装箱查看</a></li>
                                <li id="es_1_4"><a href="">已完成散货船操作</a></li>
                                 <li class="divider"></li>
-                               <li id="es_1_3"><a href="">船舶信息登记</a></li>
+                               <li id="es_1_5"><a href="/login/ship/ship_list">船舶信息登记</a></li>
                             </ul>
                          </li>
                          <!--数据分析-->

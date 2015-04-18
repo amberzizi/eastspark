@@ -1,11 +1,11 @@
 <!--海运费-->
 <div class="container">
     <div class="panel panel-info">
-        <div class="panel-heading">出货编号 <?=$shipment_id;?>海运费管理：</div>
+        <div class="panel-heading">出货编号 <?=$shipment_id;?>海运费信息更新：   </div>
         <div class="panel-body">
             <div class="container">
                 <div class="row">
-                    <form class="form-horizontal" role="form"  method="post" action="/login/shipment/add_container_transport_fees">
+                    <form class="form-horizontal" role="form"  method="post" action="/login/shipment/do_update_container_transport_fees">
                     <!--第一列-->
                     <div class="col-md-4">
                         <input type="hidden" value="<?=$list_id;?>" name="list_id"/>
@@ -17,7 +17,7 @@
                                     <label for="cargo_type" class="control-label">中文品名</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input id="cargo_type" class="form-control" type="text" name="cargo_type"/>
+                                    <input id="cargo_type" class="form-control" type="text" name="cargo_type" value="<?=$info[0]->cargo_type;?>"/>
                                 </div>
                         </div>
                         
@@ -26,7 +26,7 @@
                                     <label for="cargo_type_e" class="control-label">英文品名</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input id="cargo_type_e" class="form-control" type="text" name="cargo_type_e"/>
+                                    <input id="cargo_type_e" class="form-control" type="text" name="cargo_type_e" value="<?=$info[0]->cargo_type_e;?>"/>
                                 </div>
                         </div>
                         
@@ -36,7 +36,7 @@
                                     <label for="wrap_num" class="control-label">包装件数</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input id="wrap_num" class="form-control" type="text" name="wrap_num"/>
+                                    <input id="wrap_num" class="form-control" type="text" name="wrap_num" value="<?=$info[0]->wrap_num;?>"/>
                                 </div>
                         </div>
                         <div class="form-group">
@@ -44,7 +44,7 @@
                                     <label for="wrap_type" class="control-label">包装类型</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input id="wrap_type" class="form-control" type="text" name="wrap_type"/>
+                                    <input id="wrap_type" class="form-control" type="text" name="wrap_type" value="<?=$info[0]->wrap_type;?>"/>
                                 </div>
                         </div>
                          <!--重量-->
@@ -53,7 +53,7 @@
                                     <label for="net_weight" class="control-label">净重KGS</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input id="net_weight" class="form-control" type="text" name="net_weight"/>
+                                    <input id="net_weight" class="form-control" type="text" name="net_weight" value="<?=$info[0]->net_weight;?>"/>
                                 </div>
                         </div>
                         <div class="form-group">
@@ -61,7 +61,7 @@
                                     <label for="gross_weight" class="control-label">毛重KGS</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input id="gross_weight" class="form-control" type="text" name="gross_weight"/>
+                                    <input id="gross_weight" class="form-control" type="text" name="gross_weight" value="<?=$info[0]->gross_weight;?>"/>
                                 </div>
                         </div>
                         
@@ -71,7 +71,7 @@
                                     <label for="bulk" class="control-label">体积CBM</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input id="bulk" class="form-control" type="text" name="bulk"/>
+                                    <input id="bulk" class="form-control" type="text" name="bulk" value="<?=$info[0]->bulk;?>"/>
                                 </div>
                         </div>
                         
@@ -81,7 +81,7 @@
                                     <label for="require" class="control-label">订舱要求</label>
                                 </div>
                                 <div class="col-sm-9">
-                                    <input id="require" class="form-control" type="text" name="require"/>
+                                    <input id="require" class="form-control" type="text" name="require" value="<?=$info[0]->require;?>"/>
                                 </div>
                         </div>
                         
@@ -138,7 +138,7 @@
                                                 <label for="box_num" class="control-label">箱体个数</label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input id="box_num" class="form-control" type="text" name="box_num"/>
+                                                <input id="box_num" class="form-control" type="text" name="box_num" value="<?=$info[0]->box_num;?>"/>
                                             </div>
                                     </div>
                                     <!--运价成本(USD)-->
@@ -147,7 +147,7 @@
                                                 <label for="post_cost" class="control-label">运价成本(USD)</label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input id="post_cost" class="form-control" type="text" name="post_cost"/>
+                                                <input id="post_cost" class="form-control" type="text" name="post_cost" value="<?=$info[0]->post_cost;?>"/>
                                             </div>
                                     </div>
                                     <!--海运费(USD)-->
@@ -156,7 +156,7 @@
                                                 <label for="sea_cost" class="control-label">海运费(USD)</label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input id="sea_cost" class="form-control" type="text" name="sea_cost"/>
+                                                <input id="sea_cost" class="form-control" type="text" name="sea_cost" value="<?=$info[0]->sea_cost;?>"/>
                                             </div>
                                     </div>
                                     
@@ -168,7 +168,7 @@
                                                 <label for="all_post_cost" class="control-label">总成本(USD)</label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input id="all_post_cost" class="form-control" type="text" name="all_post_cost"/>
+                                                <input id="all_post_cost" class="form-control" type="text" name="all_post_cost" value="<?=$info[0]->all_post_cost;?>"/>
                                             </div>
                                     </div>
                                     <!--总海运费(USD)-->
@@ -177,7 +177,7 @@
                                                 <label for="all_sea_cost" class="control-label">总海运费(USD)</label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input id="all_sea_cost" class="form-control" type="text" name="all_sea_cost"/>
+                                                <input id="all_sea_cost" class="form-control" type="text" name="all_sea_cost" value="<?=$info[0]->all_sea_cost;?>"/>
                                             </div>
                                     </div>
                                     <!--利润(USD)-->
@@ -186,7 +186,7 @@
                                                 <label for="gain" class="control-label">利润(USD)</label>
                                             </div>
                                             <div class="col-sm-6">
-                                                <input id="gain" class="form-control" type="text" name="gain"/>
+                                                <input id="gain" class="form-control" type="text" name="gain" value="<?=$info[0]->gain;?>"/>
                                             </div>
                                     </div>
                             </div>
@@ -225,7 +225,7 @@
                 
                 <div class="row" style="padding-top: 50px;">
                     <div class="col-sm-offset-5 col-sm-10">
-                        <input class="btn btn-warning" type="submit" value="确定提交"/>
+                        <input class="btn btn-warning" type="submit" value="确定修改"/>
                         <a class="btn btn-default" href="/login/shipment/shipment_container_list_doing">返回列表</a>
                         <p><label style=" text-align: center; color: red; font-size: 15px;">最终确定后，在货单列表中将不再出现管理选项</label></p>
                         
@@ -235,15 +235,25 @@
 
             </form>
         </div>
+        <div class="panel-footer">
+            创建时间: <?=$info[0]->create_time;?>   最后更新时间: <?=$info[0]->update_time;?>
+        </div>
     </div>
 </div>
                     <!--第三列-->
 <script type="text/javascript">
 $(document).ready(function(){
-    $('#agent').val('');
-    $('#box_type').val('');
-    $('#client').val('');
+    var agent = "<?=$info[0]->agent;?>";
+    var box_type = "<?=$info[0]->box_type;?>";
+    var client = "<?=$info[0]->client;?>";
     
+    $('#agent').val(agent);
+    $('#box_type').val(box_type);
+    $('#client').val(client);
+});
+
+
+$(document).ready(function(){
     $("#count_all_cost").bind("click",function(){
     var box_num = parseInt($("#box_num").val()); 
     var post_cost = parseFloat($("#post_cost").val());
@@ -262,7 +272,6 @@ $(document).ready(function(){
 });
 
 </script>
-
  <script type="text/javascript">
 $(document).ready(function(){
     $("#es_1").addClass('active');    

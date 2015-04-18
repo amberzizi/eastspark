@@ -88,7 +88,7 @@
                                         href="/login/shipment/create_container_transport_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">创建</a>
                                 <?php }else if($value->transport_fees === '0'){?>
                                     <a class="btn btn-warning btn-xs" 
-                                        href="/login/shipment/create_container_transport_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">修改</a>
+                                        href="/login/shipment/update_container_transport_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">修改</a>
                                 <?php }else if($value->transport_fees === '1'){?>
                                     <a class="btn btn-success btn-xs" 
                                         href="#">完成</a>

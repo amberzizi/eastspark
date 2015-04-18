@@ -188,7 +188,8 @@ class Shipment extends Base{
         $data['harbour'] = $this->shipment->get_harbour_list_for_shipment();
         //客户列表
         $data['client'] = $this->shipment->get_client_list_for_shipment();
-        
+        //船舶名称列表
+        $data['ship'] = $this->shipment->get_ship_list_for_shipment();
         
         
         //var_dump($data['container_state_info']);die();
@@ -227,7 +228,7 @@ class Shipment extends Base{
         $data['voyage'] = htmlspecialchars(trim($this->input->post('voyage')));
         $data['ship_id'] = $this->input->post('ship_id');
         $data['shipper'] = htmlspecialchars(trim($this->input->post('shipper')));
-        $data['recipient'] = $this->input->post('recipient');
+        $data['client'] = $this->input->post('client');
         
         $data['bill_num_state'] = $this->input->post('bill_num_state');
         
@@ -267,11 +268,16 @@ class Shipment extends Base{
             
         } else {
             show_404();
-            return;
+            die();
         }
         
         $data['list_id'] = $lid;
         $data['shipment_id'] = $sid;
+        
+        //订舱代理列表
+        $data['coop_com'] = $this->shipment->get_es_com_list_for_shipment();
+        //客户列表
+        $data['client'] = $this->shipment->get_client_list_for_shipment();
         
         
         $this->load->view('/headfeet/control_head',$this->_header);
@@ -323,7 +329,7 @@ class Shipment extends Base{
         try{
             $re = $this->shipment->add_transport_fees($data);
             
-        }catch(mysqli_sql_exception $e){
+        }catch(Exception $e){
             show_404();
             die();
         }
@@ -345,11 +351,102 @@ class Shipment extends Base{
         
     }
 
+    /**
+    *
+    * 运单  集装箱container   更新海运费
+    * 
+    * 1
+    */
 
+    public function update_container_transport_fees($sid='-99',$lid ='-99'){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $this->_header['meta']['title'] = '管理海运费';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');     
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        
+        if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            die();
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+        
+        //订舱代理列表
+        $data['coop_com'] = $this->shipment->get_es_com_list_for_shipment();
+        //客户列表
+        $data['client'] = $this->shipment->get_client_list_for_shipment();
+        //本单海运费信息
+        $data['info'] = $this->shipment->get_transport_fees_by_shipment_id($data['shipment_id'],$data['list_id']);
+        
+        
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_update_transport_fees',$data);
+    }
 
+    /**
+    *
+    * 运单  集装箱container   更新海运费动作
+    * 
+    * 1
+    */
+    public function do_update_container_transport_fees(){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $data['shipment_id'] = $this->input->post('shipment_id');
+        $data['list_id'] = $this->input->post('list_id');
+        $data['cargo_type'] = htmlspecialchars(trim($this->input->post('cargo_type')));
+        $data['agent'] = $this->input->post('agent');
+        $data['box_type'] = $this->input->post('box_type');
+        $data['box_num'] = htmlspecialchars(trim($this->input->post('box_num')));
+        $data['post_cost'] = htmlspecialchars(trim($this->input->post('post_cost')));
+        $data['sea_cost'] = htmlspecialchars(trim($this->input->post('sea_cost')));
+        $data['all_post_cost'] = htmlspecialchars(trim($this->input->post('all_post_cost')));
+        $data['all_sea_cost'] = htmlspecialchars(trim($this->input->post('all_sea_cost')));
+        $data['gain'] = htmlspecialchars(trim($this->input->post('gain')));
+        $data['client'] = $this->input->post('client');
+        $data['state'] = $this->input->post('state');
+        
+        $data['cargo_type_e'] = htmlspecialchars(trim($this->input->post('cargo_type_e')));
+        $data['wrap_num'] = htmlspecialchars(trim($this->input->post('wrap_num')));
+        $data['wrap_type'] = htmlspecialchars(trim($this->input->post('wrap_type')));
+        $data['net_weight'] = htmlspecialchars(trim($this->input->post('net_weight')));
+        $data['gross_weight'] = htmlspecialchars(trim($this->input->post('gross_weight')));
+        $data['bulk'] = htmlspecialchars(trim($this->input->post('bulk')));
+        $data['require'] = htmlspecialchars(trim($this->input->post('require')));
 
-
-
+        
+        
+        //更新海运费记录
+        try{
+            $this->shipment->do_update_transport_fees_by_shipment_id($data['shipment_id'],$data['list_id'],$data);
+            
+        }catch(Exception $e){
+            show_404();
+            die();
+        }
+        
+        
+        //在首次创建的时候如果 选择最终确定  也可以更改列表状态 将无法管理
+        //初始化  2 未创建   1最终确定  0未确定
+        if($data['state'] == '1'){
+            $state = '1';
+            $this->shipment->change_transport_fees_state_in_list($data['list_id'],$state);          
+        }
+         
+   
+            redirect('/login/shipment/shipment_container_list_doing'); 
+    }
 //========================海运费用 完成============================
 
 

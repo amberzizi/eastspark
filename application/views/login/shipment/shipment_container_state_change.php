@@ -5,7 +5,9 @@
 </style>
 <div class="container">
     <div class="panel panel-info">
-        <div class="panel-heading">您正在更改状态的单号为： <b><?=$container_state_info[0]->shipment_id;?></b></div>
+        <div class="panel-heading">您正在更改状态的单号为： <b><?=$container_state_info[0]->shipment_id;?></b>
+            
+        </div>
         <form class="form-horizontal" role="form" action="/login/shipment/do_shipment_container_state" method="post">
             <input type="hidden" value="<?=$container_state_info[0]->id;?>" name="sid"/>
             <div style="padding-top: 20px;padding-bottom: 10px;"></div>
@@ -107,9 +109,9 @@
                             <div class="form-group">
                                 <label for="ship_id" class="col-sm-4 control-label">船名</label>
                                     <div class="col-sm-4">
-                                        <select class="form-control es_manager" name="ship_id" id="ship_id">
-                                            <?php foreach($manager as $value):?>
-                                                <option value="<?=$value->id;?>"><?=$value->name;?></option>
+                                        <select class="form-control es_ship" name="ship_id" id="ship_id">
+                                            <?php foreach($ship as $value):?>
+                                                <option value="<?=$value->id;?>"><?=$value->ship_name;?></option>
                                             <?php endforeach;?>
                                         </select>
                                     </div>
@@ -129,9 +131,9 @@
                                     </div>
                             </div>
                             <div class="form-group">
-                                <label for="recipient" class="col-sm-4 control-label">受货人</label>
+                                <label for="client" class="col-sm-4 control-label">受货人</label>
                                     <div class="col-sm-4">
-                                        <select class="form-control es_recipient" name="recipient" id="recipient">
+                                        <select class="form-control es_client" name="client" id="client">
                                             <?php foreach($client as $value):?>
                                                 <option value="<?=$value->id;?>"><?=$value->coop_client;?></option>
                                             <?php endforeach;?>
@@ -175,6 +177,9 @@
                 </div>
            </div> 
         </form>
+        <div class="panel-footer">
+            创建时间: <?=$container_state_info[0]->create_time;?>   最后更新时间: <?=$container_state_info[0]->update_time;?>
+        </div>
     </div>
 
 </div>
@@ -190,12 +195,14 @@ $(document).ready(function(){
    var link = "<?=$container_state_info[0]->link;?>";
    var manager_id = "<?=$container_state_info[0]->manager_id;?>";
    var harbour = "<?=$container_state_info[0]->harbour;?>";
-   var recipient = "<?=$container_state_info[0]->recipient;?>";
+   var client = "<?=$container_state_info[0]->client;?>";
+   var ship_id = "<?=$container_state_info[0]->ship_id;?>";
     //运单环节
     $(".es_checked[value='"+link+"']").attr('checked',true);
     $(".es_manager").val(manager_id);
     $(".es_harbour").val(harbour);
-    $(".es_recipient").val(recipient);
+    $(".es_client").val(client);
+    $(".es_ship").val(ship_id);
    
    
     
@@ -203,7 +210,12 @@ $(document).ready(function(){
 
 
 </script>
-
+ <script type="text/javascript">
+$(document).ready(function(){
+    $("#es_1").addClass('active');    
+    $("#es_1_1").addClass('active');     
+});
+</script>
 
 
 

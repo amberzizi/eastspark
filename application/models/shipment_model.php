@@ -60,7 +60,7 @@ class Shipment_model extends CI_Model {
 	 */
     public function get_shipment_contaniner_state($s_id){
         $this->db->select('id,shipment_id,link,manager_id,harbour,container_num,lading_bill,bill_num_state,wharf,in_wharf_time,out_wharf_time
-        ,turn_harbour,voyage,shipper,recipient');
+        ,turn_harbour,voyage,shipper,client,ship_id,create_time,update_time');
         $this->db->from('es_shipment_container_list');
         $this->db->where(array('id' => $s_id));
         $query = $this->db->get();
@@ -93,6 +93,24 @@ class Shipment_model extends CI_Model {
 	 */
     public function get_client_list_for_shipment(){
         $this->db->from('es_coop_client');
+        $query = $this->db->get();
+        return $query->result();
+    }
+    /**
+	 * 集装箱   船舶列表
+     * 
+	 */
+    public function get_ship_list_for_shipment(){
+        $this->db->from('es_ship_info');
+        $query = $this->db->get();
+        return $query->result();
+    }
+    /**
+	 * 集装箱   订舱代理
+     * 
+	 */
+    public function get_es_com_list_for_shipment(){
+        $this->db->from('es_coop_com');
         $query = $this->db->get();
         return $query->result();
     }
@@ -140,8 +158,30 @@ class Shipment_model extends CI_Model {
         $this->db->where(array('id' => $list_id));
         $this->db->update('es_shipment_container_list',array('transport_fees' => $state));
     }
-    
-    
+    /**
+	 * 集装箱   根据ID 获取海运费信息
+     * 
+     * @param shipmentid
+     * @param listid
+	 */
+    public function get_transport_fees_by_shipment_id($data,$listid){
+        $this->db->where(array('list_id' => $listid));
+        $this->db->where(array('shipment_id' => $data));
+        $query = $this->db->get('es_shipment_container_transport_fees');
+        return $query->result();
+    }
+    /**
+	 * 集装箱   根据ID 更新海运费信息
+     *  
+     * @param shipmentid
+     * @param listid
+	 */
+    public function do_update_transport_fees_by_shipment_id($dataid,$listid,$data){
+        $this->db->where(array('list_id' => $listid));
+        $this->db->where(array('shipment_id' => $dataid));
+        $this->db->update('es_shipment_container_transport_fees',$data);
+        
+    }
     //获取单号总信息列表
     public function get_list_info(){
        // $this->db->from('shipment_list');
@@ -178,15 +218,7 @@ class Shipment_model extends CI_Model {
         $this->db->update('shipment_list',array('sundries_fees_state' => $state));
     }
     
-    
-    
-    //根据list_id 获取单条海运费信息
-    public function get_fees_info_by_id($list_id){
-        $this->db->where(array('list_id' => $list_id));
-        $query = $this->db->get('transport_fees');
-        return $query->result();
-        
-    }
+
     //更新海运费信息
     public function update_transport_fees($fees_id,$date){
         $this->db->where(array('id' => $fees_id));

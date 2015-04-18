@@ -134,6 +134,17 @@ class Shipment_model extends CI_Model {
         return $query;
     }
     /**
+	 * 集装箱  检查主键重复性 报关前
+     * @param shipment_id
+	 */
+    public function check_packing_if_have($data){
+        $this->db->from('es_shipment_container_packing');
+        $this->db->where(array('shipment_id' => $data));
+        $query = $this->db->count_all_results();
+        return $query;
+        
+    }
+    /**
 	 * 集装箱   添加 海运费
      * 
      * @param 数据
@@ -159,6 +170,16 @@ class Shipment_model extends CI_Model {
         $this->db->update('es_shipment_container_list',array('transport_fees' => $state));
     }
     /**
+	 * 集装箱   更改 货单list 中的报关前状态
+     * 
+     * @param 集装箱列表 id
+     * @param 状态  2为创建 0 未完成 1 完成
+	 */
+    public function change_packing_state_in_list($list_id,$state){
+        $this->db->where(array('id' => $list_id));
+        $this->db->update('es_shipment_container_list',array('before_apply_state' => $state));
+    }
+    /**
 	 * 集装箱   根据ID 获取海运费信息
      * 
      * @param shipmentid
@@ -175,12 +196,53 @@ class Shipment_model extends CI_Model {
      *  
      * @param shipmentid
      * @param listid
+     * @param 数据
 	 */
     public function do_update_transport_fees_by_shipment_id($dataid,$listid,$data){
         $this->db->where(array('list_id' => $listid));
         $this->db->where(array('shipment_id' => $dataid));
         $this->db->update('es_shipment_container_transport_fees',$data);
         
+    }
+    
+    /**
+	 * 集装箱   添加 报关前
+     * 
+     * @param 数据
+	 */
+    public function add_packing($data){
+        $this->db->insert('es_shipment_container_packing',$data);
+        $re = $this->db->affected_rows();
+        if($re>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+	 * 集装箱   根据id 获取报关前装箱数据
+     * 
+     * @param listid
+     * @param shipmentid
+	 */
+    public function get_container_packing_by_id($lid,$sid){
+        $this->db->where(array('list_id' => $lid));
+        $this->db->where(array('shipment_id' => $sid));
+        $query = $this->db->get('es_shipment_container_packing');
+        return $query->result();
+    }
+    /**
+	 * 集装箱   根据ID 更新报关前管理 装箱
+     *  
+     * @param shipmentid
+     * @param listid
+     * @param 数据
+	 */
+    
+    public function do_update_packing_by_shipment_id($dataid,$listid,$data){
+        $this->db->where(array('list_id' => $listid));
+        $this->db->where(array('shipment_id' => $dataid));
+        $this->db->update('es_shipment_container_packing',$data);
     }
     //获取单号总信息列表
     public function get_list_info(){

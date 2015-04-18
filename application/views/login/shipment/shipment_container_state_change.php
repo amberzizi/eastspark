@@ -1,8 +1,4 @@
 <!--时间选择器 前后月份选择箭头-->
-<style type="text/css">
-#ui-datepicker-div .ui-datepicker-prev{ width:16px; height:16px; position: absolute; left: 8px; top: 7px; background: url('/resource/images/left-arrows.jpg') no-repeat ;}
-#ui-datepicker-div .ui-datepicker-next{ width:16px; height:16px; position: absolute; right: 8px; top:7px;background: url('/resource/images/right-arrows.jpg') no-repeat ;}
-</style>
 <div class="container">
     <div class="panel panel-info">
         <div class="panel-heading">您正在更改状态的单号为： <b><?=$container_state_info[0]->shipment_id;?></b>

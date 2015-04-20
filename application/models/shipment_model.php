@@ -156,6 +156,17 @@ class Shipment_model extends CI_Model {
         return $query;
         
     }
+    /**
+	 * 集装箱  检查主键重复性 提单转客户
+     * @param shipment_id
+	 */
+    public function check_bill_to_client_if_have($data){
+        $this->db->from('es_shipment_bill_to_client');
+        $this->db->where(array('shipment_id' => $data));
+        $query = $this->db->count_all_results();
+        return $query;
+        
+    }
     
     /**
 	 * 集装箱   添加 海运费
@@ -310,6 +321,61 @@ class Shipment_model extends CI_Model {
         $this->db->where(array('shipment_id' => $dataid));
         $this->db->update('es_shipment_container_middle_apply',$data);
     }
+    /**
+	 * 集装箱   添加 提单转客户
+     * 
+     * @param 数据
+	 */
+    //提单转客户
+    public function add_bill_to_client($data){
+        $this->db->insert('es_shipment_bill_to_client',$data);
+        $re = $this->db->affected_rows();
+        if($re>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    /**
+	 * 集装箱   更改 货单list 提单转客户
+     * 
+     * @param 集装箱列表 id
+     * @param 状态  2为创建 0 未完成 1 完成
+	 */
+     //更改 货单list 中的提单转客户状态
+    public function change_bill_to_client_state_in_list($list_id,$state){
+        $this->db->where(array('id' => $list_id));
+        $this->db->update('es_shipment_container_list',array('bill_to_client_state' => $state));
+    }
+    
+    /**
+	 * 集装箱   根据id 获取提单转用户数据
+     * 
+     * @param listid
+     * @param shipmentid
+	 */
+     
+     //单条
+    public function get_container_bill_to_client_by_id($lid,$sid){
+        $this->db->where(array('list_id' => $lid));
+        $this->db->where(array('shipment_id' => $sid));
+        $query = $this->db->get('es_shipment_bill_to_client');
+        return $query->result();
+    }
+    /**
+	 * 集装箱   根据ID 更新报提单转客户
+     *  
+     * @param shipmentid
+     * @param listid
+     * @param 数据
+	 */
+    public function do_update_container_bill_to_client_by_shipment_id($dataid,$listid,$data){
+        $this->db->where(array('list_id' => $listid));
+        $this->db->where(array('shipment_id' => $dataid));
+        $this->db->update('es_shipment_bill_to_client',$data);
+    }
+    
     
     //获取单号总信息列表
     public function get_list_info(){
@@ -332,11 +398,7 @@ class Shipment_model extends CI_Model {
     
     
     
-    //更改 货单list 中的提单转客户状态
-    public function change_bill_state_in_list($list_id,$state){
-        $this->db->where(array('id' => $list_id));
-        $this->db->update('shipment_list',array('bill_to_client_state' => $state));
-    }
+    
     //更改 货单list 中的港杂费状态
     public function change_sundries_fees_state_in_list($list_id,$state){
         $this->db->where(array('id' => $list_id));
@@ -372,16 +434,7 @@ class Shipment_model extends CI_Model {
         }
     }
     // <!-- phpDesigner :: Timestamp [2014/10/6 13:54:28] -->
-    //提单转客户
-    public function add_bill_to_client($data){
-        $this->db->insert('bill_to_client',$data);
-        $re = $this->db->affected_rows();
-        if($re>0){
-            return true;
-        }else{
-            return false;
-        }
-    }
+    
     
     public function get_bill_by_id($list_id){
         $this->db->where(array('list_id' => $list_id));

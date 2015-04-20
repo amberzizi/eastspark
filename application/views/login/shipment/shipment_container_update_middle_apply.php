@@ -234,7 +234,9 @@
                 </form>
             </div>
         </div>
-    
+        <div class="panel-footer">
+        创建时间：<?=$info_by_id[0]->create_time;?>  最后更新时间：<?=$info_by_id[0]->update_time;?>
+        </div>
 
     </div>
 </div>

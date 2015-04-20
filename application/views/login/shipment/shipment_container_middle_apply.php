@@ -215,7 +215,8 @@
                 </form>
             </div>
         </div>
-    
+        <div class="panel-footer">
+        </div>
 
     </div>
 </div>

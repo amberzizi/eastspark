@@ -116,7 +116,16 @@
                                  <a class="btn btn-success btn-xs" href="#">完成</a>
                                  <?php }?>
                             </td>
-                            <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
+                            <!--提单转客户-->
+                            <td>
+                                <?php if($value->bill_to_client_state === '2'){?>
+                                <a class="btn btn-info btn-xs" href="/login/shipment/create_container_bill_to_client/<?=$value->shipment_id;?>/<?=$value->id;?>">创建</a>
+                                <?php }else if($value->bill_to_client_state === '0'){?>
+                                <a class="btn btn-warning btn-xs" href="/login/shipment/update_container_bill_to_client/<?=$value->shipment_id;?>/<?=$value->id;?>">修改</a>
+                                <?php }else if($value->bill_to_client_state === '1'){?>
+                                <a class="btn btn-success btn-xs" href="#">完成</a>
+                                 <?php }?>
+                            </td>
                             <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
                         </tr>
                         <?php endforeach;?>

@@ -636,7 +636,7 @@ class Shipment extends Base{
         $data['packing_img_url'] = $this->input->post('packing_img_url');
         $data['state'] = $this->input->post('state');
         
-        //更新海运费记录
+        //更新报关前记录
         try{
             $this->shipment->do_update_packing_by_shipment_id($data['shipment_id'],$data['list_id'],$data);
             
@@ -659,6 +659,238 @@ class Shipment extends Base{
         
     }
 //========================报关前装箱 完成============================
+
+
+//========================报关中管理 开始============================
+    /**
+    *
+    * 运单  集装箱container   报关中 创建
+    * 
+    * 1
+    */
+    public function create_container_middle_apply($sid='-99',$lid ='-99'){
+       //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $this->_header['meta']['title'] = '创建报关前管理-装箱信息';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+        $this->_header['meta']['css'][] = addCss('/resource/timepicker/css/jquery-ui.css');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['css'][] = addCss('/resource/uploadify/uploadify.css');
+        
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui-slide.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui-timepicker-addon.js');
+        
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        
+
+        $this->_header['meta']['js'][] = addJs('/resource/uploadify/jquery.uploadify.js');
+       
+        
+        if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            die();
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+       
+        
+        //创建传图文件夹
+        $path = 'uploads/middle_apply/'.$data['shipment_id'].'/';
+        if(!file_exists($path)){
+            mkdir($path,0777,true);
+        }
+        $data['path'] = $path;
+        $data['file_name'] = $data['shipment_id'];
+        //制作上传文件令牌
+        $data['timestamp'] = time();
+        $data['token'] = md5('hereistrytoupload'.$data['timestamp']);
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_middle_apply',$data);
+        
+        
+    }
+    /**
+    *
+    * 运单  集装箱container   报关中 增加
+    * 
+    * 1
+    */
+    
+    public function add_container_middle_apply(){
+         //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $data['shipment_id'] = $this->input->post('shipment_id');
+        $data['list_id'] = $this->input->post('list_id');
+        $data['contract'] = $this->input->post('contract');
+        $data['invoice'] = $this->input->post('invoice');
+        $data['packing_list'] = $this->input->post('packing_list');
+        $data['permit'] = $this->input->post('permit');
+        $data['proxy'] = $this->input->post('proxy');
+        $data['sufferance'] = $this->input->post('sufferance');
+        $data['com_check'] = $this->input->post('com_check');
+        $data['tex'] = $this->input->post('tex');
+        $data['before_money'] = $this->input->post('before_money');
+        $data['act_money'] = $this->input->post('act_money');
+        $data['final_money'] = $this->input->post('final_money');
+        $data['sea_check'] = $this->input->post('sea_check');
+        $data['content'] = htmlspecialchars(trim($this->input->post('content')));
+        $data['state'] = $this->input->post('state');
+        $data['middle_img_url'] = $this->input->post('middle_img_url');
+        $data['create_time'] = date("Y-m-d H:i:s");
+        
+        //检查是否主键重复
+        $check = $this->shipment->check_middle_apply_if_have($data['shipment_id']);
+        if($check != '0'){
+            show_404();
+            die();
+        }
+        
+        //创建
+        try{
+            $re = $this->shipment->add_middle_apply($data);
+            
+        }catch(Exception $e){
+            show_404();
+            die();
+        }
+        
+        
+        
+        //在首次创建的时候如果 选择最终确定  也可以更改列表状态 将无法管理
+        if($data['state'] == '1'){
+            $state = '1';
+            $this->shipment->change_middle_apply_state_in_list($data['list_id'],$state);
+            
+        }else if($re == true){
+            $state = '0';
+            $this->shipment->change_middle_apply_state_in_list($data['list_id'],$state);
+        }
+        redirect('/login/shipment/shipment_container_list_doing'); 
+        
+    }
+    
+    /**
+    *
+    * 运单  集装箱container   报关中更新
+    * 
+    * 1
+    */
+    public function update_container_middle_apply($sid='-99',$lid ='-99'){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $this->_header['meta']['title'] = '创建报中更新';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+        $this->_header['meta']['css'][] = addCss('/resource/timepicker/css/jquery-ui.css');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['css'][] = addCss('/resource/uploadify/uploadify.css');
+        
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui-slide.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui-timepicker-addon.js');
+        
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        
+
+        $this->_header['meta']['js'][] = addJs('/resource/uploadify/jquery.uploadify.js');
+       
+        
+        if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            die();
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+        
+        //根据id 获取报关中相关数据
+        $data['info_by_id'] = $this->shipment->get_container_middle_apply_by_id($lid,$sid);
+        
+        
+        //准备传图携带数据
+        $data['path'] = $data['info_by_id'][0]->middle_img_url;
+        $data['file_name'] = $data['shipment_id'];
+        //制作上传文件令牌
+        $data['timestamp'] = time();
+        $data['token'] = md5('hereistrytoupload'.$data['timestamp']);
+        
+        //扫描已上传的文件  去掉. ..
+        $data['files'] = scandir($_SERVER['DOCUMENT_ROOT'].'/'.$data['path']);
+        array_shift($data['files']);
+        array_shift($data['files']);
+        //不要上传使用中文文件名
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_update_middle_apply',$data);
+    }
+
+    /**
+    *
+    * 运单  集装箱container   报关中更新
+    * 
+    * 1
+    */
+    public function do_update_container_middle_apply(){
+         //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $data['shipment_id'] = $this->input->post('shipment_id');
+        $data['list_id'] = $this->input->post('list_id');
+        $data['contract'] = $this->input->post('contract');
+        $data['invoice'] = $this->input->post('invoice');
+        $data['packing_list'] = $this->input->post('packing_list');
+        $data['permit'] = $this->input->post('permit');
+        $data['proxy'] = $this->input->post('proxy');
+        $data['sufferance'] = $this->input->post('sufferance');
+        $data['com_check'] = $this->input->post('com_check');
+        $data['tex'] = $this->input->post('tex');
+        $data['before_money'] = $this->input->post('before_money');
+        $data['act_money'] = $this->input->post('act_money');
+        $data['final_money'] = $this->input->post('final_money');
+        $data['sea_check'] = $this->input->post('sea_check');
+        $data['content'] = htmlspecialchars(trim($this->input->post('content')));
+        $data['state'] = $this->input->post('state');
+        
+        //更新报关中记录
+        try{
+            $this->shipment->do_update_container_middle_apply_by_shipment_id($data['shipment_id'],$data['list_id'],$data);
+            
+        }catch(Exception $e){
+            show_404();
+            die();
+        }
+        
+        
+        //在首次创建的时候如果 选择最终确定  也可以更改列表状态 将无法管理
+        //初始化  2 未创建   1最终确定  0未确定
+        if($data['state'] == '1'){
+            $state = '1';
+            $this->shipment->change_middle_apply_state_in_list($data['list_id'],$state);
+            
+        }
+         
+   
+            redirect('/login/shipment/shipment_container_list_doing'); 
+    }
+
+
+//========================报关中管理 完成============================
+
+
 
 
 

@@ -144,6 +144,19 @@ class Shipment_model extends CI_Model {
         return $query;
         
     }
+    
+    /**
+	 * 集装箱  检查主键重复性 报关中
+     * @param shipment_id
+	 */
+    public function check_middle_apply_if_have($data){
+        $this->db->from('es_shipment_container_middle_apply');
+        $this->db->where(array('shipment_id' => $data));
+        $query = $this->db->count_all_results();
+        return $query;
+        
+    }
+    
     /**
 	 * 集装箱   添加 海运费
      * 
@@ -244,6 +257,60 @@ class Shipment_model extends CI_Model {
         $this->db->where(array('shipment_id' => $dataid));
         $this->db->update('es_shipment_container_packing',$data);
     }
+    
+    /**
+	 * 集装箱   添加 报关中
+     * 
+     * @param 数据
+	 */
+    //新增报关中
+    public function add_middle_apply($data){
+        $this->db->insert('es_shipment_container_middle_apply',$data);
+        $re = $this->db->affected_rows();
+        if($re>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    /**
+	 * 集装箱   更改 货单list 中的报关中状态
+     * 
+     * @param 集装箱列表 id
+     * @param 状态  2为创建 0 未完成 1 完成
+	 */
+    //更改 货单list 中的报关中状态
+    public function change_middle_apply_state_in_list($list_id,$state){
+        $this->db->where(array('id' => $list_id));
+        $this->db->update('es_shipment_container_list',array('middle_apply_state' => $state));
+    }
+    
+     /**
+	 * 集装箱   根据id 获取报关中单据数据
+     * 
+     * @param listid
+     * @param shipmentid
+	 */
+    //单条
+    public function get_container_middle_apply_by_id($lid,$sid){
+        $this->db->where(array('list_id' => $lid));
+        $this->db->where(array('shipment_id' => $sid));
+        $query = $this->db->get('es_shipment_container_middle_apply');
+        return $query->result();
+    }
+    /**
+	 * 集装箱   根据ID 更新报关中管理 装箱
+     *  
+     * @param shipmentid
+     * @param listid
+     * @param 数据
+	 */
+    public function do_update_container_middle_apply_by_shipment_id($dataid,$listid,$data){
+        $this->db->where(array('list_id' => $listid));
+        $this->db->where(array('shipment_id' => $dataid));
+        $this->db->update('es_shipment_container_middle_apply',$data);
+    }
+    
     //获取单号总信息列表
     public function get_list_info(){
        // $this->db->from('shipment_list');
@@ -264,11 +331,7 @@ class Shipment_model extends CI_Model {
     }
     
     
-    //更改 货单list 中的报关中状态
-    public function change_middle_apply_state_in_list($list_id,$state){
-        $this->db->where(array('id' => $list_id));
-        $this->db->update('shipment_list',array('middle_apply_state' => $state));
-    }
+    
     //更改 货单list 中的提单转客户状态
     public function change_bill_state_in_list($list_id,$state){
         $this->db->where(array('id' => $list_id));
@@ -294,23 +357,9 @@ class Shipment_model extends CI_Model {
     }
     
     //报关中// <!-- phpDesigner :: Timestamp [2014/10/6 9:32:31] -->
-    //新增报关中
-    public function add_middle_apply($data){
-        $this->db->insert('middle_apply',$data);
-        $re = $this->db->affected_rows();
-        if($re>0){
-            return true;
-        }else{
-            return false;
-        }
-    }
     
-    //单条
-    public function get_middle_apply_by_id($list_id){
-        $this->db->where(array('list_id' => $list_id));
-        $query = $this->db->get('middle_apply');
-        return $query->result();
-    }
+    
+    
     //更新
     public function update_middle_apply($id,$data){
         $this->db->where(array('id' => $id));

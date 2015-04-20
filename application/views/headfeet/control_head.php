@@ -65,14 +65,14 @@
                             </ul>
                          </li>
                          <!--报价体系-->
-                         <li class="dropdown">
+                         <li class="dropdown" id="es_3">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                报价体系
                                <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu es_drop_list">
-                               <li><a href="#">报价设定</a></li>
-                               <li><a href="#">历史报价查询</a></li>
+                               <li id="es_3_1"><a href="/login/quoted_price/add_price">新增报价设定</a></li>
+                               <li id="es_3_2"><a href="/login/quoted_price/price_list">历史报价查询</a></li>
                             </ul>
                          </li>
                          <!--资料存档-->

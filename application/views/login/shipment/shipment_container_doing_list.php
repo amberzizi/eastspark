@@ -46,7 +46,7 @@
                             </th>
                             <th>
                                 <a href="#" data-toggle="tooltip" data-placement="top" title="装箱信息等">
-                                报关前管理</a>
+                                报关前装箱</a>
                             </th>
                             <th>
                                 <a href="#" data-toggle="tooltip" data-placement="top" title="关税、单据电子版、是否验货等信息">
@@ -82,6 +82,7 @@
                                     href="/login/shipment/shipment_container_state/<?=$value->id;?>">完善信息</a>
                                 
                             </td>
+                            <!--海运费-->
                             <td>
                                 <?php if($value->transport_fees === '2'){?>
                                     <a class="btn btn-info btn-xs" 
@@ -94,6 +95,7 @@
                                         href="#">完成</a>
                                 <?php }?>
                             </td>
+                            <!--报关前装箱-->
                             <td>
                                 <?php if($value->before_apply_state === '2'){?>
                                 <a class="btn btn-info btn-xs" href="/login/shipment/create_container_packing/<?=$value->shipment_id;?>/<?=$value->id;?>">创建</a>
@@ -104,7 +106,16 @@
                                 <a class="btn btn-success btn-xs" href="#">完成</a>
                                 <?php }?>
                             </td>
-                            <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
+                            <!--报关中-->
+                            <td>
+                                <?php if($value->middle_apply_state === '2'){?>
+                                <a class="btn btn-info btn-xs" href="/login/shipment/create_container_middle_apply/<?=$value->shipment_id;?>/<?=$value->id;?>">创建</a>
+                                 <?php }else if($value->middle_apply_state === '0'){?>
+                                 <a class="btn btn-warning btn-xs" href="/login/shipment/update_container_middle_apply/<?=$value->shipment_id;?>/<?=$value->id;?>">修改</a>
+                                 <?php }else if($value->middle_apply_state === '1'){?>
+                                 <a class="btn btn-success btn-xs" href="#">完成</a>
+                                 <?php }?>
+                            </td>
                             <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
                             <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
                         </tr>

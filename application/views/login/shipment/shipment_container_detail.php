@@ -7,7 +7,29 @@
         <div class="panel-body">
             <!--第一行-->
             <div class="row">
-                
+                <table class="table">
+                    <tr>
+                        <th>111</th>
+                        <th>111</th>
+                        <th>111</th>
+                        <th>111</th>
+                        <th>111</th>
+                    </tr>
+                    <tr>
+                        <td>1111</td>
+                        <td>1111</td>
+                        <td>1111</td>
+                        <td>1111</td>
+                        <td>1111</td>
+                    </tr>
+                    <tr>
+                        <td>1111</td>
+                        <td>1111</td>
+                        <td>1111</td>
+                        <td>1111</td>
+                        <td>1111</td>
+                    </tr>
+                </table>
             </div>
         
         </div>

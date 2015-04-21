@@ -98,7 +98,7 @@
                                         href="/login/shipment/update_container_transport_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">修改</a>
                                 <?php }else if($value->transport_fees === '1'){?>
                                     <a class="btn btn-success btn-xs" 
-                                        href="#">完成</a>
+                                        href="/login/shipment/show_container_transport_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">完成</a>
                                 <?php }?>
                             </td>
                             <!--报关前装箱-->
@@ -109,7 +109,7 @@
                                 <a class="btn btn-warning btn-xs" 
                                         href="/login/shipment/update_container_packing/<?=$value->shipment_id;?>/<?=$value->id;?>">修改</a>
                                 <?php }else if($value->before_apply_state === '1'){?>
-                                <a class="btn btn-success btn-xs" href="#">完成</a>
+                                <a class="btn btn-success btn-xs" href="/login/shipment/show_container_packing/<?=$value->shipment_id;?>/<?=$value->id;?>">完成</a>
                                 <?php }?>
                             </td>
                             <!--报关中-->
@@ -119,7 +119,7 @@
                                  <?php }else if($value->middle_apply_state === '0'){?>
                                  <a class="btn btn-warning btn-xs" href="/login/shipment/update_container_middle_apply/<?=$value->shipment_id;?>/<?=$value->id;?>">修改</a>
                                  <?php }else if($value->middle_apply_state === '1'){?>
-                                 <a class="btn btn-success btn-xs" href="#">完成</a>
+                                 <a class="btn btn-success btn-xs" href="/login/shipment/show_container_middle_apply/<?=$value->shipment_id;?>/<?=$value->id;?>">完成</a>
                                  <?php }?>
                             </td>
                             <!--提单转客户-->
@@ -129,7 +129,7 @@
                                 <?php }else if($value->bill_to_client_state === '0'){?>
                                 <a class="btn btn-warning btn-xs" href="/login/shipment/update_container_bill_to_client/<?=$value->shipment_id;?>/<?=$value->id;?>">修改</a>
                                 <?php }else if($value->bill_to_client_state === '1'){?>
-                                <a class="btn btn-success btn-xs" href="#">完成</a>
+                                <a class="btn btn-success btn-xs" href="/login/shipment/show_container_bill_to_client/<?=$value->shipment_id;?>/<?=$value->id;?>">完成</a>
                                  <?php }?>
                             </td>
                             <td>
@@ -138,7 +138,7 @@
                                  <?php }else if($value->transport_fees === '1' && $value->sundries_fees_state === '0'){?>
                                  <a class="btn btn-warning btn-xs" href="/login/shipment/update_container_sundries_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">修改</a>
                                  <?php }else if($value->transport_fees === '1' && $value->sundries_fees_state === '1'){?>
-                                 <a class="btn btn-success btn-xs" href="#">完成</a>
+                                 <a class="btn btn-success btn-xs" href="/login/shipment/show_container_sundries_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">完成</a>
                                   <?php }else {?>
                                   <a class="btn btn-info btn-xs" href="#">不可创建</a>
                                   <?php }?>

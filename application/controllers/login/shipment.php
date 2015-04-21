@@ -447,6 +447,48 @@ class Shipment extends Base{
    
             redirect('/login/shipment/shipment_container_list_doing'); 
     }
+    
+    /**
+    *
+    * 运单  集装箱container   海运费完成
+    * 
+    * 1
+    */
+
+    public function show_container_transport_fees($sid='-99',$lid ='-99'){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $this->_header['meta']['title'] = '海运费完成';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');     
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        
+        if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            die();
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+        
+        //订舱代理列表
+        $data['coop_com'] = $this->shipment->get_es_com_list_for_shipment();
+        //客户列表
+        $data['client'] = $this->shipment->get_client_list_for_shipment();
+        //本单海运费信息
+        $data['info'] = $this->shipment->get_transport_fees_by_shipment_id($data['shipment_id'],$data['list_id']);
+        
+        
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_show_transport_fees',$data);
+    }
 //========================海运费用 完成============================
 
 //========================报关前装箱 开始============================
@@ -657,6 +699,66 @@ class Shipment extends Base{
             redirect('/login/shipment/shipment_container_list_doing'); 
         
         
+    }
+    
+    /**
+    *
+    * 运单  集装箱container   更新
+    * 
+    * 1
+    */
+    public function show_container_packing($sid='-99',$lid ='-99'){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $this->_header['meta']['title'] = '创建报关前完成';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+        $this->_header['meta']['css'][] = addCss('/resource/timepicker/css/jquery-ui.css');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['css'][] = addCss('/resource/uploadify/uploadify.css');
+        
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui-slide.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui-timepicker-addon.js');
+        
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        
+
+        $this->_header['meta']['js'][] = addJs('/resource/uploadify/jquery.uploadify.js');
+       
+        
+        if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            die();
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+        
+        //根据id 获取报关前相关数据
+        $data['info'] = $this->shipment->get_container_packing_by_id($lid,$sid);
+        
+        
+        //准备传图携带数据
+        $data['path'] = $data['info'][0]->packing_img_url;
+        $data['file_name'] = $data['shipment_id'];
+        //制作上传文件令牌
+        $data['timestamp'] = time();
+        $data['token'] = md5('hereistrytoupload'.$data['timestamp']);
+        
+        //扫描已上传的文件  去掉. ..
+        $data['files'] = scandir($_SERVER['DOCUMENT_ROOT'].'/'.$data['path']);
+        array_shift($data['files']);
+        array_shift($data['files']);
+        //var_dump($data['files']);
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_show_packing',$data);
     }
 //========================报关前装箱 完成============================
 
@@ -880,6 +982,61 @@ class Shipment extends Base{
    
             redirect('/login/shipment/shipment_container_list_doing'); 
     }
+/**
+    *
+    * 运单  集装箱container   报关中完成
+    * 
+    * 1
+    */
+    public function show_container_middle_apply($sid='-99',$lid ='-99'){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $this->_header['meta']['title'] = '创建报中完成';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+        $this->_header['meta']['css'][] = addCss('/resource/timepicker/css/jquery-ui.css');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['css'][] = addCss('/resource/uploadify/uploadify.css');
+        
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        
+
+        $this->_header['meta']['js'][] = addJs('/resource/uploadify/jquery.uploadify.js');
+       
+        
+        if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            die();
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+        
+        //根据id 获取报关中相关数据
+        $data['info_by_id'] = $this->shipment->get_container_middle_apply_by_id($lid,$sid);
+        
+        
+        //准备传图携带数据
+        $data['path'] = $data['info_by_id'][0]->middle_img_url;
+        $data['file_name'] = $data['shipment_id'];
+        //制作上传文件令牌
+        $data['timestamp'] = time();
+        $data['token'] = md5('hereistrytoupload'.$data['timestamp']);
+        
+        //扫描已上传的文件  去掉. ..
+        $data['files'] = scandir($_SERVER['DOCUMENT_ROOT'].'/'.$data['path']);
+        array_shift($data['files']);
+        array_shift($data['files']);
+        //不要上传使用中文文件名
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_show_middle_apply',$data);
+    }
 
 
 //========================报关中管理 完成============================
@@ -1087,6 +1244,61 @@ class Shipment extends Base{
     }
 
 
+/**
+    *
+    * 运单  集装箱container   提单转客户完成
+    * 
+    * 1
+    */
+    public function show_container_bill_to_client($sid='-99',$lid ='-99'){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $this->_header['meta']['title'] = '提单转客户完成';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+        $this->_header['meta']['css'][] = addCss('/resource/timepicker/css/jquery-ui.css');
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['css'][] = addCss('/resource/uploadify/uploadify.css');
+        
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui-slide.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/timepicker/js/jquery-ui-timepicker-addon.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/uploadify/jquery.uploadify.js');
+       
+        
+        if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            die();
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+        
+        //根据id 获取报关中相关数据
+        $data['info'] = $this->shipment->get_container_bill_to_client_by_id($lid,$sid);
+        
+        
+        //准备传图携带数据
+        $data['path'] = $data['info'][0]->img_url;
+        $data['file_name'] = $data['shipment_id'];
+        //制作上传文件令牌
+        $data['timestamp'] = time();
+        $data['token'] = md5('hereistrytoupload'.$data['timestamp']);
+        
+        //扫描已上传的文件  去掉. ..
+        $data['files'] = scandir($_SERVER['DOCUMENT_ROOT'].'/'.$data['path']);
+        array_shift($data['files']);
+        array_shift($data['files']);
+        //不要上传使用中文文件名
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_show_bill_to_client',$data);
+    }
 
 //========================提单转客户 完成============================
 
@@ -1348,6 +1560,50 @@ class Shipment extends Base{
         }
         
         redirect('/login/shipment/shipment_container_list_doing'); 
+    }
+    
+    /**
+    *
+    * 运单  集装箱container  完成浏览
+    * 
+    * 1
+    */
+    public function show_container_sundries_fees($sid='-99',$lid ='-99'){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $this->_header['meta']['title'] = '更新港杂费';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+
+        
+        if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            die();
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+     
+        //根据id 获取报关中相关数据
+        $data['info'] = $this->shipment->get_container_sundries_fees_by_id($lid,$sid);   
+        //订舱代理列表
+        $data['coop_com'] = $this->shipment->get_es_com_list_for_shipment();
+        //客户列表
+        $data['client'] = $this->shipment->get_client_list_for_shipment();
+        //箱体数量 和信息
+        $data['box_info'] = $this->shipment->get_box_info_from_transport_fees($data['list_id'],$data['shipment_id']);
+        
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_show_sundries_fees',$data);
     }
 //========================港杂费 完成============================
 

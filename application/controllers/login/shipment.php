@@ -1091,9 +1091,327 @@ class Shipment extends Base{
 //========================提单转客户 完成============================
 
 
+//========================港杂费 开始============================
+/**
+    *
+    * 运单  集装箱container   创建港杂费
+    * 
+    * 1
+    */
+    public function create_container_sundries_fees($sid='-99',$lid ='-99'){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        $this->_header['meta']['title'] = '港杂费';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
 
+        
+         if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            die();
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+        
+        //订舱代理列表
+        $data['coop_com'] = $this->shipment->get_es_com_list_for_shipment();
+        //客户列表
+        $data['client'] = $this->shipment->get_client_list_for_shipment();
+        //箱体数量 和信息
+        $data['box_info'] = $this->shipment->get_box_info_from_transport_fees($data['list_id'],$data['shipment_id']);
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_sundries_fees',$data);
+    }
+/**
+    *
+    * 运单  集装箱container   增加港杂费
+    * 
+    * 1
+    */
+    public function add_container_sundries_fees(){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        $this->_header['meta']['title'] = '港杂费';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        
+        
+        $data['shipment_id'] = $this->input->post('shipment_id');
+        $data['list_id'] = $this->input->post('list_id');
+        
+        $data['fee_out'] = $this->input->post('fee_out');
+        $data['tts_out'] = $this->input->post('fee_out');
+        $data['thc_out'] = $this->input->post('thc_out');
+        $data['ecrs_out'] = $this->input->post('ecrs_out');
+        $data['chc_out'] = $this->input->post('chc_out');
+        $data['se_out'] = $this->input->post('se_out');
+        $data['box_out'] = $this->input->post('box_out');
+        $data['ship_out'] = $this->input->post('ship_out');
+        $data['file_out'] = $this->input->post('file_out');
+        $data['sea_out'] = $this->input->post('sea_out');
+        $data['check_out'] = $this->input->post('check_out');
+        $data['unload_out'] = $this->input->post('unload_out');
+        $data['water_out'] = $this->input->post('water_out');
+        $data['d_out'] = $this->input->post('d_out');
+        $data['search_out'] = $this->input->post('search_out');
+        $data['fee_in'] = $this->input->post('fee_in');
+        $data['tts_in'] = $this->input->post('fee_in');
+        $data['thc_in'] = $this->input->post('thc_in');
+        $data['ecrs_in'] = $this->input->post('ecrs_in');
+        $data['chc_in'] = $this->input->post('chc_in');
+        $data['se_in'] = $this->input->post('se_in');
+        $data['box_in'] = $this->input->post('box_in');
+        $data['ship_in'] = $this->input->post('ship_in');
+        $data['file_in'] = $this->input->post('file_in');
+        $data['sea_in'] = $this->input->post('sea_in');
+        $data['check_in'] = $this->input->post('check_in');
+        $data['unload_in'] = $this->input->post('unload_in');
+        $data['water_in'] = $this->input->post('water_in');
+        $data['d_in'] = $this->input->post('d_in');
+        $data['search_in'] = $this->input->post('search_in');
+        $data['agent_in'] = $this->input->post('agent_in');
+        $data['gain'] = $this->input->post('gain');
+        $data['box_fee_out'] = $this->input->post('box_fee_out');
+        $data['boxs_fees_out'] = $this->input->post('boxs_fees_out');
+        $data['box_fee_in'] = $this->input->post('box_fee_in');
+        $data['boxs_fees_in'] = $this->input->post('boxs_fees_in');
+        
+        $data['state'] = $this->input->post('state');
+        $data['create_time'] = date("Y-m-d H:i:s");
+        
+        
+        //检查是否主键重复
+        $check = $this->shipment->check_sundries_fees_if_have($data['shipment_id']);
+        if($check != '0'){
+            show_404();
+            die();
+        }
+        
+        //创建
+        try{
+            $re = $this->shipment->add_sundries_fees($data);
+            
+        }catch(Exception $e){
+            show_404();
+            die();
+        }
+        
+        
+        
+        //在首次创建的时候如果 选择最终确定  也可以更改列表状态 将无法管理
+        if($data['state'] == '1'){
+            $state = '1';
+            $this->shipment->change_sundries_fees_state_in_list($data['list_id'],$state);
+            
+        }else if($re == true){
+            $state = '0';
+            $this->shipment->change_sundries_fees_state_in_list($data['list_id'],$state);
+        }
+        redirect('/login/shipment/shipment_container_list_doing'); 
+        
+        
+        
+    
+    }
+/**
+    *
+    * 运单  集装箱container   更新港杂费
+    * 
+    * 1
+    */
+    public function update_container_sundries_fees($sid='-99',$lid ='-99'){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $this->_header['meta']['title'] = '更新港杂费';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
 
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
 
+        
+        if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            die();
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+     
+        //根据id 获取报关中相关数据
+        $data['info'] = $this->shipment->get_container_sundries_fees_by_id($lid,$sid);   
+        //订舱代理列表
+        $data['coop_com'] = $this->shipment->get_es_com_list_for_shipment();
+        //客户列表
+        $data['client'] = $this->shipment->get_client_list_for_shipment();
+        //箱体数量 和信息
+        $data['box_info'] = $this->shipment->get_box_info_from_transport_fees($data['list_id'],$data['shipment_id']);
+        
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_update_sundries_fees',$data);
+    }
+    /**
+    *
+    * 运单  集装箱container   报关中更新
+    * 
+    * 1
+    */
+    public function do_upload_container_sundries_fees(){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        $this->_header['meta']['title'] = '港杂费';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+        
+        
+        $data['shipment_id'] = $this->input->post('shipment_id');
+        $data['list_id'] = $this->input->post('list_id');
+        
+        $data['fee_out'] = $this->input->post('fee_out');
+        $data['tts_out'] = $this->input->post('fee_out');
+        $data['thc_out'] = $this->input->post('thc_out');
+        $data['ecrs_out'] = $this->input->post('ecrs_out');
+        $data['chc_out'] = $this->input->post('chc_out');
+        $data['se_out'] = $this->input->post('se_out');
+        $data['box_out'] = $this->input->post('box_out');
+        $data['ship_out'] = $this->input->post('ship_out');
+        $data['file_out'] = $this->input->post('file_out');
+        $data['sea_out'] = $this->input->post('sea_out');
+        $data['check_out'] = $this->input->post('check_out');
+        $data['unload_out'] = $this->input->post('unload_out');
+        $data['water_out'] = $this->input->post('water_out');
+        $data['d_out'] = $this->input->post('d_out');
+        $data['search_out'] = $this->input->post('search_out');
+        $data['fee_in'] = $this->input->post('fee_in');
+        $data['tts_in'] = $this->input->post('fee_in');
+        $data['thc_in'] = $this->input->post('thc_in');
+        $data['ecrs_in'] = $this->input->post('ecrs_in');
+        $data['chc_in'] = $this->input->post('chc_in');
+        $data['se_in'] = $this->input->post('se_in');
+        $data['box_in'] = $this->input->post('box_in');
+        $data['ship_in'] = $this->input->post('ship_in');
+        $data['file_in'] = $this->input->post('file_in');
+        $data['sea_in'] = $this->input->post('sea_in');
+        $data['check_in'] = $this->input->post('check_in');
+        $data['unload_in'] = $this->input->post('unload_in');
+        $data['water_in'] = $this->input->post('water_in');
+        $data['d_in'] = $this->input->post('d_in');
+        $data['search_in'] = $this->input->post('search_in');
+        $data['agent_in'] = $this->input->post('agent_in');
+        $data['gain'] = $this->input->post('gain');
+        $data['box_fee_out'] = $this->input->post('box_fee_out');
+        $data['boxs_fees_out'] = $this->input->post('boxs_fees_out');
+        $data['box_fee_in'] = $this->input->post('box_fee_in');
+        $data['boxs_fees_in'] = $this->input->post('boxs_fees_in');
+        
+        $data['state'] = $this->input->post('state');
+        
+        
+        //更新
+        try{
+            $this->shipment->do_update_container_sundries_fees_by_shipment_id($data['shipment_id'],$data['list_id'],$data);
+            
+        }catch(Exception $e){
+            show_404();
+            die();
+        }
+        
+        
+        
+        //在首次创建的时候如果 选择最终确定  也可以更改列表状态 将无法管理
+        if($data['state'] == '1'){
+            $state = '1';
+            $this->shipment->change_sundries_fees_state_in_list($data['list_id'],$state);
+            
+        }
+        
+        redirect('/login/shipment/shipment_container_list_doing'); 
+    }
+//========================港杂费 完成============================
+
+//========================详情============================
+/**
+    *
+    * 运单  集装箱container   显示单条详情
+    * 
+    * 1
+    */
+    public function show_shipment_container_detail($sid='-99',$lid ='-99'){
+        //$this->_acl_login('shipment');
+        $this->_acl_login();
+        
+        $this->_header['meta']['title'] = '显示运单详情';
+        $this->_header['meta']['keywords'] = '伊斯';
+        $this->_header['meta']['description'] = '伊斯';
+        
+
+        $this->_header['meta']['css'][] = addCss('/resource/bootstrap-3.3.4-dist/css/bootstrap.css');
+        $this->_header['meta']['js'][] = addJs('/resource/js/jquery-1.11.1.min.js');
+        $this->_header['meta']['js'][] = addJs('/resource/bootstrap-3.3.4-dist/js/bootstrap.min.js');
+
+        
+        if ($sid !== '-99' && $lid !== '-99') {
+            
+        } else {
+            show_404();
+            die();
+        }
+        
+        $data['list_id'] = $lid;
+        $data['shipment_id'] = $sid;
+        //基本信息
+        $data['info_a'] = $this->shipment->get_shipment_container_detail_by_id($lid,$sid);
+        //海运费
+        $data['info_b'] = $this->shipment->get_transport_fees_by_shipment_id($data['shipment_id'],$data['list_id']);
+        //报关前
+        $data['info_c'] = $this->shipment->get_container_packing_by_id($lid,$sid);
+        //报关中
+        $data['info_d'] = $this->shipment->get_container_middle_apply_by_id($lid,$sid);
+        //港杂费
+        $data['info_e'] = $this->shipment->get_container_sundries_fees_by_id($lid,$sid);   
+        
+        $this->load->view('/headfeet/control_head',$this->_header);
+        $this->load->view('/login/shipment/shipment_container_detail',$data);
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }
 

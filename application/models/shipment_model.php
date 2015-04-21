@@ -376,6 +376,96 @@ class Shipment_model extends CI_Model {
         $this->db->update('es_shipment_bill_to_client',$data);
     }
     
+    /**
+	 * 集装箱   根据ID 获取箱数 相关信息
+     *  
+     * @param listid
+     * @param shipmentid
+	 */
+    //获取海运费中已经设置好的  代理单位  箱子规格   箱子数量 品名
+    public function get_box_info_from_transport_fees($list_id,$ship_id){
+        $this->db->select('agent,box_type,box_num,cargo_type,client');
+        $this->db->where(array('list_id'=>$list_id));
+        $this->db->where(array('shipment_id'=>$ship_id));
+        $query=$this->db->get('es_shipment_container_transport_fees');
+        return $query->result();
+    }
+    /**
+	 * 集装箱  检查主键重复性 报关中
+     * @param shipment_id
+	 */
+    public function check_sundries_fees_if_have($data){
+        $this->db->from('es_shipment_container_sundries_fees');
+        $this->db->where(array('shipment_id' => $data));
+        $query = $this->db->count_all_results();
+        return $query;
+    }
+    
+    /**
+	 * 集装箱   添加 港杂费
+     * 
+     * @param 数据
+	 */
+    public function add_sundries_fees($data){
+        $this->db->insert('es_shipment_container_sundries_fees',$data);
+        $re = $this->db->affected_rows();
+        if($re>0){
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
+     /**
+	 * 集装箱   更改 货单list 提单转客户
+     * 
+     * @param 集装箱列表 id
+     * @param 状态  2为创建 0 未完成 1 完成
+	 */
+    //更改 货单list 中的港杂费状态
+    public function change_sundries_fees_state_in_list($list_id,$state){
+        $this->db->where(array('id' => $list_id));
+        $this->db->update('es_shipment_container_list',array('sundries_fees_state' => $state));
+    }
+    /**
+	 * 集装箱   根据id 获取港杂费信息
+     * 
+     * @param listid
+     * @param shipmentid
+	 */
+    public function get_container_sundries_fees_by_id($lid,$sid){
+        $this->db->where(array('list_id' => $lid));
+        $this->db->where(array('shipment_id' => $sid));
+        $query = $this->db->get('es_shipment_container_sundries_fees');
+        return $query->result();
+    }
+    /**
+	 * 集装箱   根据ID 更新港杂费
+     *  
+     * @param shipmentid
+     * @param listid
+     * @param 数据
+	 */
+    public function do_update_container_sundries_fees_by_shipment_id($dataid,$listid,$data){
+        $this->db->where(array('list_id' => $listid));
+        $this->db->where(array('shipment_id' => $dataid));
+        $this->db->update('es_shipment_container_sundries_fees',$data);
+    }
+    
+    /**
+	 * 集装箱   根据ID 获取截止目前的订单详情  多表联查
+     *  
+     * @param shipmentid
+     * @param listid
+	 */
+    public function get_shipment_container_detail_by_id($lid,$sid){
+        $this->db->from('es_shipment_container_list');
+        $this->db->where(array('id' => $lid));
+        $this->db->where(array('shipment_id' => $sid));
+        $query = $this->db->get();
+        return $query->result();
+    }
+    
     
     //获取单号总信息列表
     public function get_list_info(){
@@ -399,11 +489,7 @@ class Shipment_model extends CI_Model {
     
     
     
-    //更改 货单list 中的港杂费状态
-    public function change_sundries_fees_state_in_list($list_id,$state){
-        $this->db->where(array('id' => $list_id));
-        $this->db->update('shipment_list',array('sundries_fees_state' => $state));
-    }
+    
     
 
     //更新海运费信息
@@ -454,24 +540,9 @@ class Shipment_model extends CI_Model {
     }
     
     //港杂费
-    //获取海运费中已经设置好的  代理单位  箱子规格   箱子数量 品名
-    public function get_box_info_from_transport_fees($list_id){
-        $this->db->select('agent,box_type,box_num,cargo_type,client');
-        $this->db->where(array('list_id'=>$list_id));
-        $query=$this->db->get('transport_fees');
-        return $query->result();
-    }
     
-    public function add_sundries_fees($data){
-        $this->db->insert('sundries_fees',$data);
-        $re = $this->db->affected_rows();
-        if($re>0){
-            return true;
-        }else{
-            return false;
-        }
-        
-    }
+    
+    
 
 
 

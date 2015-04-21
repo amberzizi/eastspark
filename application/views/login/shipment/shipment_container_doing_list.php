@@ -37,6 +37,10 @@
                                 负责人</a>
                             </th>
                             <th>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="查看截止目前详情">
+                                详情</a>
+                            </th>
+                            <th>
                                 <a href="#" data-toggle="tooltip" data-placement="top" title="可进行本票货品相关信息填写及各个关键环节状态更改">
                                 提单信息及状态</a>
                             </th>
@@ -57,7 +61,7 @@
                                 提单转客户</a>
                             </th>
                             <th>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="港杂费用明细">
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="港杂费用明细，在港运费确定后才可创建">
                                 港杂费</a>
                             </th>
                         </tr>
@@ -76,6 +80,8 @@
                                     else if($value->link == '4'){echo '集港上船';}else if($value->link == '5'){echo '提单生成';}?></td>
                             <!--运单操作人-->
                             <td><?=$value->manager_name;?></td>
+                            <!--详情-->
+                            <td><a class="btn btn-info btn-xs" href="/login/shipment/show_shipment_container_detail/<?=$value->shipment_id;?>/<?=$value->id;?>">详情</a></td>
                             <td>
                                 
                                 <a class="btn btn-info btn-xs" 
@@ -126,7 +132,17 @@
                                 <a class="btn btn-success btn-xs" href="#">完成</a>
                                  <?php }?>
                             </td>
-                            <td><a class="btn btn-info btn-xs" href="/home/create_transport_fees/">创建</a></td>
+                            <td>
+                                 <?php if($value->transport_fees === '1' && $value->sundries_fees_state === '2'){?>
+                                <a class="btn btn-info btn-xs" href="/login/shipment/create_container_sundries_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">创建</a>
+                                 <?php }else if($value->transport_fees === '1' && $value->sundries_fees_state === '0'){?>
+                                 <a class="btn btn-warning btn-xs" href="/login/shipment/update_container_sundries_fees/<?=$value->shipment_id;?>/<?=$value->id;?>">修改</a>
+                                 <?php }else if($value->transport_fees === '1' && $value->sundries_fees_state === '1'){?>
+                                 <a class="btn btn-success btn-xs" href="#">完成</a>
+                                  <?php }else {?>
+                                  <a class="btn btn-info btn-xs" href="#">不可创建</a>
+                                  <?php }?>
+                            </td>
                         </tr>
                         <?php endforeach;?>
                     <?php }?>

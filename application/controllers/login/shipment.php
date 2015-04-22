@@ -5,7 +5,8 @@
 * 
 */
 
-
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 include_once realpath(APPLICATION_CONTROLLERS) . '/base.php';
 
 class Shipment extends Base{

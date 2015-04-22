@@ -37,10 +37,6 @@
                                 负责人</a>
                             </th>
                             <th>
-                                <a href="#" data-toggle="tooltip" data-placement="top" title="查看截止目前详情">
-                                详情</a>
-                            </th>
-                            <th>
                                 <a href="#" data-toggle="tooltip" data-placement="top" title="可进行本票货品相关信息填写及各个关键环节状态更改">
                                 提单信息及状态</a>
                             </th>
@@ -80,8 +76,6 @@
                                     else if($value->link == '4'){echo '集港上船';}else if($value->link == '5'){echo '提单生成';}?></td>
                             <!--运单操作人-->
                             <td><?=$value->manager_name;?></td>
-                            <!--详情-->
-                            <td><a class="btn btn-info btn-xs" href="/login/shipment/show_shipment_container_detail/<?=$value->shipment_id;?>/<?=$value->id;?>">详情</a></td>
                             <td>
                                 
                                 <a class="btn btn-info btn-xs" 

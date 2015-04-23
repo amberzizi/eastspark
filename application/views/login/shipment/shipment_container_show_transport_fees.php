@@ -44,7 +44,7 @@
                                     <label for="wrap_type" class="control-label">包装类型</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input id="wrap_type" class="form-control" type="text" name="wrap_type" value="<?=$info[0]->wrap_type;?>"/>
+                                    <input id="wrap_type" class="form-control" type="text" name="wrap_type" value="<?=$info[0]->wrap_type;?>" disabled="true"/>
                                 </div>
                         </div>
                          <!--重量-->
@@ -61,7 +61,7 @@
                                     <label for="gross_weight" class="control-label">毛重KGS</label>
                                 </div>
                                 <div class="col-sm-7">
-                                    <input id="gross_weight" class="form-control" type="text" name="gross_weight" value="<?=$info[0]->gross_weight;?>"/>
+                                    <input disabled="true" id="gross_weight" class="form-control" type="text" name="gross_weight" value="<?=$info[0]->gross_weight;?>"/>
                                 </div>
                         </div>
                         

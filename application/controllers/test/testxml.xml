@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--testxml.xml-->
+
+<collection>
+    <people>
+        <name>keke</name>
+        <job>php</job>
+        <age>30</age>
+        <pic image_url="xxx.jpg"/>
+    </people>
+    <people>
+        <name>jone</name>
+        <job>web</job>
+        <age>31</age>
+        <pic image_url="xxx1.jpg"/>
+        <year>2013</year>
+    </people>
+    <people>
+        <name>jack</name>
+        <name>max</name>
+        <job>ui</job>
+        <age>29</age>
+        <pic image_url="xxx2.jpg"/>
+        <year>2012</year>
+    </people>
+
+
+</collection>

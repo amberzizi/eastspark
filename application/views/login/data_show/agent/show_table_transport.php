@@ -1,10 +1,10 @@
 
 
 <div class="container">
-    <a href="/login/data_show/show_container_table_for_agent">返回日期选择页</a>
+    <a href="/login/data_show/show_container_table_for_agent_transport">返回日期选择页</a>
     <div class="panel panel-info">
         <div class="panel-heading">
-            时间区间内订舱代开票用表-港杂费:（选中一行后，拖动到目标行，可以交换先后位置。）
+            时间区间内订舱代开票用表-国际运费:（选中一行后，拖动到目标行，可以交换先后位置。）
         </div>
         <div class="panel-body">
         
@@ -18,7 +18,7 @@
                     <th>目的港</th>
                     <th>箱型</th>
                     <th>箱量</th>
-                    <th>港杂费</th>
+                    <th>国际运费</th>
                 </tr>
            <?php if(isset($info) && !empty($info)){?>     
             <?php   $i=1;
@@ -32,15 +32,15 @@
                     <td><?=$value->coop_harbour;?></td>
                     <td><?php if($value->box_type == '1'){echo '20GP';}else if($value->box_type == '2'){echo '40GP';};?></td>
                     <td><?=$value->box_num;?></td>
-                    <td><?=$value->boxs_fees_out;?></td>
+                    <td>USD <?=$value->all_post_cost;?></td>
                 </tr>
               
             <?php endforeach;?>
            <?php }?>
                 <tr>
-                    <td colspan="8">合计</td>
+                    <td colspan="8">合计（USD）</td>
                     
-                    <td><?=sprintf('RMB %.2f',round($all_fees,2));?></td>
+                    <td><?=sprintf('USD %.2f',round($all_fees,2));?></td>
                 </tr>
             </table>
             

@@ -1,12 +1,12 @@
 <div class="container">
     <div class="panel panel-info">
         <div class="panel-heading">
-            请选择时间区间-港杂费：
+            请选择时间区间-国际运费：
         </div>
         <div class="panel-body">
         <!--时间区间-->
             <div class="row">
-                <form class="form-horizontal" role="form"  method="post" action="/login/data_show/check_table_for_agent">
+                <form class="form-horizontal" role="form"  method="post" action="/login/data_show/check_table_for_agent_transport">
                     <div class="col-md-12">
                         <div class="col-sm-4">
                             <!--起始日期-->
@@ -66,7 +66,7 @@ $('#end').datetimepicker({
 <script type="text/javascript">
 $(document).ready(function(){
     $("#es_2").addClass('active');    
-    $("#es_2_1").addClass('active');     
+    $("#es_2_2").addClass('active');     
 });
 </script>
 </body>

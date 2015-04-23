@@ -58,7 +58,8 @@
                                <b class="caret"></b>
                             </a>
                             <ul class="dropdown-menu es_drop_list">
-                                <li id="es_2_1"><a href="/login/data_show/show_container_table_for_agent">订舱代理开票</a></li>
+                                <li id="es_2_1"><a href="/login/data_show/show_container_table_for_agent">订舱代理开票-港杂费</a></li>
+                                <li id="es_2_2"><a href="/login/data_show/show_container_table_for_agent_transport">订舱代理开票-国际运费</a></li>
                                <li><a href="">区间数据选择</a></li>
                                <li><a href="">上传阶段记录</a></li>
                                <li><a href="">数据记录列表</a></li>
